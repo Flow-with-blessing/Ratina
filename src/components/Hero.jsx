@@ -48,14 +48,12 @@ export default function Hero({ onSelectBadge }) {
       </div>
 
       <h1 className="hero-title">
-        The Amazon Review Intelligence API.<br />
-        <span className="hero-title-accent">Without the $99/mo subscription.</span>
+        Search Before You Source.<br />
+        <span className="hero-title-accent">Amazon Competitor Defect Intelligence. Without the $99/mo Bill.</span>
       </h1>
 
       <p className="hero-subtext">
-        Ratina investigates live Amazon competitors, uncovers recurring customer-reported product failures, 
-        and delivers actionable sourcing specifications — as a headless API, an MCP tool for AI agents, 
-        or through this visual playground. Pay $0.018 per investigation through Monid.
+        Before you manufacture or source an Amazon product, Ratina audits 5 competing brands on live customer review data to reveal every recurring failure mode, defect rate, and factory tolerance fix. Powered by Monid pay-per-call at $0.018/run. Built for humans and autonomous AI agents over MCP.
       </p>
 
       {/* Interactive Proof Badges Row */}
