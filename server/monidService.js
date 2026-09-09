@@ -2,6 +2,7 @@ import { exec } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
+import { secureId } from './receiptService.js';
 
 const execAsync = promisify(exec);
 
@@ -13,10 +14,12 @@ const COST_RATES = {
 };
 
 /**
- * Generate a unique call ID for tracking
+ * Generate a unique call ID for tracking.
+ * Uses crypto-strong randomness: call IDs are committed to in signed
+ * receipts, so they must not be predictable or collision-prone.
  */
 function generateCallId() {
-  return `mc_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+  return secureId('mc');
 }
 
 /**
@@ -58,8 +61,10 @@ export async function runMonidEndpoint({ provider, endpoint, input, timeoutSec =
   let attempt = 0;
 
   while (attempt <= maxRetries) {
-    const inputFile = path.join(tempDir, `monid_in_${Date.now()}_${Math.random().toString(36).substring(7)}.json`);
-    const outputFile = path.join(tempDir, `monid_out_${Date.now()}_${Math.random().toString(36).substring(7)}.json`);
+    // Crypto-strong suffixes: concurrent investigations must never collide
+    // on scratch filenames (Date.now() alone is not unique under load).
+    const inputFile = path.join(tempDir, `${secureId('monid_in')}.json`);
+    const outputFile = path.join(tempDir, `${secureId('monid_out')}.json`);
 
     try {
       fs.writeFileSync(inputFile, JSON.stringify(input, null, 2), 'utf8');
@@ -234,7 +239,15 @@ export async function searchAmazonProducts(keyword, maxPages = 1, apiKey) {
   });
 
   if (!result.success) {
-    return { success: false, candidates: [], error: result.error, callMetadata: result.callMetadata };
+    // Propagate the failure classification so callers can distinguish an
+    // upstream gateway outage (degradable) from a genuinely empty search.
+    return {
+      success: false,
+      candidates: [],
+      error: result.error,
+      errorType: result.errorType || 'UPSTREAM_UNAVAILABLE',
+      callMetadata: result.callMetadata
+    };
   }
 
   // Parse search results into candidate list

@@ -15,9 +15,14 @@
  *   (communicates over stdin/stdout using JSON-RPC 2.0)
  */
 
+// MUST be first: reroutes console output to stderr before any imported
+// module can write to stdout, which is the JSON-RPC transport here.
+import './stdioSafeConsole.js';
+
 import { runInvestigation } from './investigationEngine.js';
 import { generateSourcingBriefText, generateSourcingJSON } from './exportService.js';
 import { getCachedResult, setCachedResult, getAllCachedKeys } from './cache.js';
+import { verifyInvestigationReceipt, verifyChain, getKeyId } from './receiptService.js';
 import dotenv from 'dotenv';
 import { createInterface } from 'readline';
 
@@ -93,6 +98,24 @@ const MCP_TOOLS = [
         }
       },
       required: ['category']
+    }
+  },
+  {
+    name: 'verify_receipt',
+    description:
+      'Cryptographically verify an exported Ratina investigation against its signed receipt. ' +
+      'Recomputes the SHA-256 content hash, the Merkle root over every Monid data call, and the ' +
+      'HMAC-SHA256 signature. Returns valid:false and names the exact failed check if any figure ' +
+      'in the report was altered after issuance. Cost: $0.00.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        payload: {
+          type: 'object',
+          description: 'The exported investigation JSON, including its `verification` block'
+        }
+      },
+      required: ['payload']
     }
   }
 ];
@@ -176,6 +199,9 @@ async function handleToolCall(id, params) {
         break;
       case 'export_sourcing_brief':
         result = await toolExportSourcingBrief(args);
+        break;
+      case 'verify_receipt':
+        result = await toolVerifyReceipt(args);
         break;
       default:
         return {
@@ -381,6 +407,37 @@ async function toolExportSourcingBrief(args) {
 
   // Default: plain text brief
   return generateSourcingBriefText(cached);
+}
+
+/**
+ * Tool: verify_receipt
+ * Verifies an exported investigation against its signed cryptographic receipt.
+ */
+async function toolVerifyReceipt(args) {
+  const raw = args?.payload;
+
+  if (!raw || typeof raw !== 'object') {
+    throw new Error('Missing required parameter: payload (the exported investigation JSON)');
+  }
+
+  // Accept the raw payload or the /api/export/json wrapper.
+  const target = raw.verification ? raw : (raw.data?.verification ? raw.data : raw);
+  const result = verifyInvestigationReceipt(target);
+
+  return {
+    verified: result.valid,
+    verdict: result.valid
+      ? 'AUTHENTIC — receipt matches this exact analysis'
+      : 'TAMPERED OR INVALID',
+    reason: result.reason,
+    failedCheck: result.failedCheck,
+    runId: result.runId,
+    signingKeyId: result.keyId,
+    issuedAt: result.issuedAt,
+    checks: result.checks,
+    chainStatus: verifyChain(),
+    verifierKeyId: getKeyId()
+  };
 }
 
 // ─── STDIO TRANSPORT ───────────────────────────────────────────────────────────

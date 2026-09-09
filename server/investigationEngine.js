@@ -10,6 +10,8 @@
 import fs from 'fs';
 import path from 'path';
 import { searchAmazonProducts, selectTopCompetitors, fetchAmazonDataWithMonid } from './monidService.js';
+import { validateStage, validateStageCollection, createValidationLog } from './schemas.js';
+import { issueReceipt, secureId } from './receiptService.js';
 
 // ─── CATEGORY-AWARE FAILURE DICTIONARIES ──────────────────────────────────────
 
@@ -284,13 +286,38 @@ export function analyzeReviewsForFailures(reviews, failureDictionary) {
  * @param {string[]} [options.asins] - Pre-selected ASINs (skip search if provided)
  * @param {string} [options.searchQuery] - Search query for discovery (if no ASINs provided)
  * @param {string} [options.apiKey] - Optional custom Monid API key
+ * @param {string} [options.runId] - Caller-supplied run ID (so streaming clients can correlate)
+ * @param {Function} [options.onProgress] - Called with real pipeline phase events
  * @returns {Object} Complete investigation result
  */
-export async function runInvestigation({ category, asins, searchQuery, apiKey }) {
-  const runId = `run_${Date.now()}`;
+export async function runInvestigation({ category, asins, searchQuery, apiKey, runId: providedRunId, onProgress }) {
+  const runId = providedRunId || secureId('run');
   const executedAt = new Date().toISOString();
   const allCallRecords = [];
   let totalActualCost = 0;
+
+  // Real progress reporting: every emission below corresponds to work that has
+  // actually completed, never to a timer.
+  const validationLog = createValidationLog();
+  const TOTAL_PHASES = 7;
+
+  const progress = (phase, phaseIndex, message, detail = {}) => {
+    if (typeof onProgress !== 'function') return;
+    try {
+      onProgress({
+        type: 'phase',
+        runId,
+        phase,
+        phaseIndex,
+        totalPhases: TOTAL_PHASES,
+        percent: Math.round((phaseIndex / TOTAL_PHASES) * 100),
+        message,
+        ...detail
+      });
+    } catch (e) {
+      // Progress reporting must never break the pipeline.
+    }
+  };
 
   console.log(`\n[Investigation ${runId}] Starting: "${category}"`);
   console.log(`[Investigation ${runId}] Mode: ${asins ? 'Pre-selected ASINs' : 'Dynamic Discovery'}`);
@@ -305,18 +332,29 @@ export async function runInvestigation({ category, asins, searchQuery, apiKey })
   if (!asins || asins.length === 0) {
     const query = searchQuery || category;
     console.log(`[Investigation ${runId}] Phase 1: Searching Amazon for "${query}"...`);
+    progress('DISCOVERY', 0, `Searching Amazon catalog for "${query}" via Monid...`);
 
     discoveryResult = await searchAmazonProducts(query, 1, apiKey);
-    
+
     if (discoveryResult.callMetadata) {
       allCallRecords.push(discoveryResult.callMetadata);
       totalActualCost += discoveryResult.callMetadata.costUSD || 0;
     }
 
     if (!discoveryResult.success || discoveryResult.candidates.length === 0) {
+      // A failed call means the gateway/scraper is unreachable (degradable to
+      // a cached result). A successful call with zero candidates means the
+      // search genuinely found nothing — that is a real answer, not an outage.
+      const isUpstreamOutage = !discoveryResult.success;
+
+      progress('DISCOVERY_FAILED', 1, isUpstreamOutage
+        ? `Monid gateway unreachable during discovery for "${query}".`
+        : `Amazon search returned no usable results for "${query}".`);
+
       return {
         success: false,
         error: `Amazon search for "${query}" returned no results. ${discoveryResult.error || ''}`,
+        errorType: isUpstreamOutage ? 'UPSTREAM_UNAVAILABLE' : 'DISCOVERY_EMPTY',
         executionMetadata: {
           runId,
           executedAt,
@@ -328,19 +366,40 @@ export async function runInvestigation({ category, asins, searchQuery, apiKey })
       };
     }
 
+    // Stage gate: discovery output must be structurally sound before selection.
+    validationLog.assert(validateStage('DISCOVERY', {
+      totalFound: discoveryResult.totalFound,
+      candidates: discoveryResult.candidates
+    }));
+
     console.log(`[Investigation ${runId}] Found ${discoveryResult.candidates.length} candidates`);
+    progress('DISCOVERY', 1, `Discovered ${discoveryResult.candidates.length} candidate products.`, {
+      candidatesFound: discoveryResult.candidates.length
+    });
 
     // Select top 5 competitors
+    progress('SELECTION', 1, 'Ranking candidates by review volume, rating and relevance...');
     selectionResult = selectTopCompetitors(discoveryResult.candidates, 5);
     targetAsins = selectionResult.selected.map(s => s.asin);
-    
+
+    validationLog.assert(validateStage('SELECTION', selectionResult));
+
     console.log(`[Investigation ${runId}] Selected ${targetAsins.length} competitors: ${targetAsins.join(', ')}`);
+    progress('SELECTION', 2, `Selected ${targetAsins.length} competitors for deep analysis.`, {
+      selectedAsins: targetAsins
+    });
+  } else {
+    progress('SELECTION', 2, `Using ${targetAsins.length} pre-selected competitor ASIN(s).`, {
+      selectedAsins: targetAsins
+    });
   }
 
   if (targetAsins.length === 0) {
+    progress('SELECTION_FAILED', 2, 'No ASINs available for investigation.');
     return {
       success: false,
       error: 'No ASINs available for investigation',
+      errorType: 'NO_TARGETS',
       executionMetadata: { runId, executedAt, isLiveExecution: true, totalActualCost, callRecords: allCallRecords }
     };
   }
@@ -348,16 +407,27 @@ export async function runInvestigation({ category, asins, searchQuery, apiKey })
   // ─── PHASE 2: ENRICHMENT (product data + reviews for each ASIN) ─────────────
 
   console.log(`[Investigation ${runId}] Phase 2: Enriching ${targetAsins.length} ASINs...`);
-  
+  progress('ENRICHMENT', 2, `Retrieving live reviews and product data for ${targetAsins.length} competitors...`, {
+    competitorsTotal: targetAsins.length,
+    competitorsDone: 0
+  });
+
   const competitorResults = [];
   const failedAsins = [];
   const failureDictionary = getFailureDictionary(category);
+  let competitorsProcessed = 0;
 
   for (const asin of targetAsins) {
     console.log(`[Investigation ${runId}]   Fetching data for ${asin}...`);
-    
+    progress('ENRICHMENT', 2, `Scraping reviews for ${asin} (${competitorsProcessed + 1}/${targetAsins.length})...`, {
+      currentAsin: asin,
+      competitorsTotal: targetAsins.length,
+      competitorsDone: competitorsProcessed
+    });
+
     const result = await fetchAmazonDataWithMonid(asin, `(${category})`, apiKey);
-    
+    competitorsProcessed++;
+
     // Track all call records
     if (result.monidReceipt?.callRecords) {
       allCallRecords.push(...result.monidReceipt.callRecords);
@@ -372,6 +442,14 @@ export async function runInvestigation({ category, asins, searchQuery, apiKey })
         asin,
         error: result.warnings.join('; '),
         status: 'FAILED'
+      });
+      // Degraded, not fatal: the run continues with the competitors that did
+      // return data, and the shortfall is reported in dataLimitations below.
+      progress('ENRICHMENT', 2, `${asin} returned no data — continuing with remaining competitors.`, {
+        currentAsin: asin,
+        competitorFailed: true,
+        competitorsTotal: targetAsins.length,
+        competitorsDone: competitorsProcessed
       });
       continue;
     }
@@ -423,11 +501,44 @@ export async function runInvestigation({ category, asins, searchQuery, apiKey })
       warnings: result.warnings,
       retrievalSuccess: result.retrievalSuccess
     });
+
+    // Stage gate: each enriched competitor is validated before it can
+    // contribute evidence to the failure matrix.
+    validationLog.record(validateStage('ENRICHMENT', competitorResults[competitorResults.length - 1]));
+
+    progress('ENRICHMENT', 3, `${asin}: ${reviewCount} reviews analyzed (${competitorsProcessed}/${targetAsins.length} competitors done).`, {
+      currentAsin: asin,
+      reviewsRetrieved: reviewCount,
+      competitorsTotal: targetAsins.length,
+      competitorsDone: competitorsProcessed
+    });
+  }
+
+  // Total upstream outage: every competitor failed. Fail cleanly with a typed
+  // error so the caller can fall back to a clearly-labelled cached result
+  // rather than presenting a broken screen.
+  if (competitorResults.length === 0) {
+    progress('ENRICHMENT_FAILED', 3, 'All competitor data retrievals failed.');
+    return {
+      success: false,
+      error: `All ${targetAsins.length} competitor data retrievals failed. Upstream Monid gateway or scrapers are unavailable.`,
+      errorType: 'UPSTREAM_UNAVAILABLE',
+      executionMetadata: {
+        runId,
+        executedAt,
+        isLiveExecution: true,
+        totalActualCost,
+        callRecords: allCallRecords,
+        competitorsFailed: failedAsins.length,
+        phase: 'ENRICHMENT_FAILED'
+      }
+    };
   }
 
   // ─── PHASE 3: CROSS-COMPETITOR FAILURE MATRIX ────────────────────────────────
 
   console.log(`[Investigation ${runId}] Phase 3: Building failure matrix...`);
+  progress('FAILURE_MATRIX', 3, `Clustering failure patterns across ${competitorResults.length} competitors...`);
 
   const strictMatrix = [];
   const allFailureModes = new Set();
@@ -496,9 +607,15 @@ export async function runInvestigation({ category, asins, searchQuery, apiKey })
   // Sort by weighted mentions descending (or total mentions if tied)
   strictMatrix.sort((a, b) => (b.weightedMentions - a.weightedMentions) || (b.totalObservedMentions - a.totalObservedMentions));
 
+  validationLog.assert(validateStageCollection('FAILURE_MATRIX', strictMatrix));
+  progress('FAILURE_MATRIX', 4, `Built failure matrix with ${strictMatrix.length} failure modes.`, {
+    failureModes: strictMatrix.length
+  });
+
   // ─── PHASE 4: SEVERITY SCORING (Evidence-Weighted) ──────────────────────────
 
   console.log(`[Investigation ${runId}] Phase 4: Scoring severity (evidence-weighted)...`);
+  progress('SEVERITY', 4, 'Scoring failure severity with evidence weighting...');
 
   const strictSeverityScores = strictMatrix.map((row, idx) => {
     const dictEntry = failureDictionary.find(d => d.name === row.failureMode);
@@ -547,7 +664,13 @@ export async function runInvestigation({ category, asins, searchQuery, apiKey })
 
   // ─── PHASE 5: OPPORTUNITY SCORE ─────────────────────────────────────────────
 
+  validationLog.assert(validateStageCollection('SEVERITY', strictSeverityScores));
+  progress('SEVERITY', 5, `Scored ${strictSeverityScores.length} failure modes by severity.`, {
+    criticalCount: strictSeverityScores.filter(s => s.severityTier === 'CRITICAL (P0)').length
+  });
+
   console.log(`[Investigation ${runId}] Phase 5: Calculating opportunity score...`);
+  progress('OPPORTUNITY', 5, 'Calculating product opportunity score...');
 
   const totalSeveritySum = strictSeverityScores.reduce((sum, s) => sum + s.severityScore, 0);
   const failurePenalty = Math.round(totalSeveritySum * 0.12);
@@ -570,6 +693,8 @@ export async function runInvestigation({ category, asins, searchQuery, apiKey })
 
   // ─── PHASE 6: SOURCING SPECIFICATIONS ───────────────────────────────────────
 
+  progress('SOURCING_SPECS', 6, 'Generating sourcing and QA specifications from observed failures...');
+
   const strictSourcingSpecs = strictSeverityScores
     .filter(s => s.totalObservedMentions > 0)
     .map((s, idx) => {
@@ -588,7 +713,14 @@ export async function runInvestigation({ category, asins, searchQuery, apiKey })
       };
     });
 
+  validationLog.assert(validateStageCollection('SOURCING_SPEC', strictSourcingSpecs));
+  progress('SOURCING_SPECS', 6, `Generated ${strictSourcingSpecs.length} sourcing specification(s).`, {
+    specCount: strictSourcingSpecs.length
+  });
+
   // ─── PHASE 7: DECISION ──────────────────────────────────────────────────────
+
+  progress('DECISION', 6, 'Resolving go/no-go sourcing decision...');
 
   let decision, confidenceExplanation, nextStepAction;
 
@@ -747,6 +879,29 @@ export async function runInvestigation({ category, asins, searchQuery, apiKey })
       engineVersion: 'ratina-investigation-engine-v2.0'
     }
   };
+
+  // ─── STAGE GATES: SCORING, DECISION, FINAL PAYLOAD ──────────────────────────
+
+  validationLog.assert(validateStage('OPPORTUNITY', payload.productOpportunityScore));
+  validationLog.assert(validateStage('DECISION', payload.finalDecision));
+  validationLog.assert(validateStage('FINAL_PAYLOAD', payload));
+
+  // The validation trail is part of the signed record: a judge can see that
+  // every stage was schema-checked, and cannot alter that claim undetected.
+  payload.schemaValidation = validationLog.summary();
+
+  progress('DECISION', 7, `Decision resolved: ${decision}`, { decision, evidenceConfidence });
+
+  // ─── PHASE 8: CRYPTOGRAPHIC VERIFICATION ────────────────────────────────────
+
+  console.log(`[Investigation ${runId}] Phase 8: Issuing signed verification receipt...`);
+  payload.verification = issueReceipt(payload);
+
+  progress('VERIFICATION', 7, `Signed receipt issued (${payload.verification.receiptHash.slice(0, 16)}...).`, {
+    receiptHash: payload.verification.receiptHash,
+    contentHash: payload.verification.contentHash,
+    callMerkleRoot: payload.verification.callMerkleRoot
+  });
 
   // ─── SAVE PROOF ARTIFACT ────────────────────────────────────────────────────
 

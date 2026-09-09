@@ -48,13 +48,17 @@ export default function ResultsDashboard({ data, initialTab = 'decision' }) {
     setTimeout(() => setCopiedText(''), 3000);
   };
 
-  // Export handlers
+  // Export handlers — scoped to THIS report's run so concurrent users never
+  // download each other's investigation.
+  const exportRunId = data?.executionMetadata?.runId;
+  const exportQuery = exportRunId ? `?runId=${encodeURIComponent(exportRunId)}` : '';
+
   const handleDownloadJSON = () => {
-    window.open('/api/export/json', '_blank');
+    window.open(`/api/export/json${exportQuery}`, '_blank');
   };
 
   const handleDownloadBrief = () => {
-    window.open('/api/export/brief', '_blank');
+    window.open(`/api/export/brief${exportQuery}`, '_blank');
   };
 
   // If single ASIN payload, render full single report view with review evidence & Monid receipt
@@ -97,10 +101,14 @@ export default function ResultsDashboard({ data, initialTab = 'decision' }) {
                   </div>
                 )}
                 <div className="meta-chip">
-                  <strong>Rating:</strong> <span>{data.rating} / 5.0 ({data.totalAmazonRatings?.toLocaleString() || 'N/A'} ratings)</span>
+                  <strong>Rating:</strong> <span>
+                    {data.ratingAvailable === false
+                      ? 'Unavailable from scrape'
+                      : `${data.rating} / 5.0 (${data.totalAmazonRatings?.toLocaleString() || 'N/A'} ratings)`}
+                  </span>
                 </div>
                 <div className="meta-chip">
-                  <strong>Reviews Scraped:</strong> <span className="text-lime">{data.actualReviewsRetrieved || 50} live buyer reviews</span>
+                  <strong>Reviews Scraped:</strong> <span className="text-lime">{data.actualReviewsRetrieved ?? 0} live buyer reviews</span>
                 </div>
               </div>
             </div>

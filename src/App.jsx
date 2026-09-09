@@ -17,6 +17,9 @@ export default function App() {
   const [pendingAction, setPendingAction] = useState(null);
   const [dashboardTab, setDashboardTab] = useState('decision');
 
+  // Live pipeline phase events streamed from the backend (SSE)
+  const [progressEvents, setProgressEvents] = useState([]);
+
   // Custom Monid Key & Trial State
   const [isKeyModalOpen, setIsKeyModalOpen] = useState(false);
   const [monidApiKey, setMonidApiKey] = useState(() => {
@@ -64,6 +67,96 @@ export default function App() {
     setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
   };
 
+  /**
+   * Poll fallback for environments where EventSource is blocked (some
+   * corporate proxies buffer or drop text/event-stream).
+   */
+  const pollRun = (runId) => new Promise((resolve, reject) => {
+    const poll = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/runs/${runId}`);
+        const payload = await res.json();
+        if (Array.isArray(payload.events)) setProgressEvents(payload.events);
+
+        if (payload.status === 'COMPLETE') {
+          clearInterval(poll);
+          resolve(payload.result);
+        } else if (payload.status === 'ERROR') {
+          clearInterval(poll);
+          const err = new Error(payload.error?.error || 'Run failed');
+          err.payload = payload.error;
+          reject(err);
+        }
+      } catch (e) {
+        clearInterval(poll);
+        reject(e);
+      }
+    }, 1000);
+  });
+
+  /**
+   * Start a run and follow its REAL progress over Server-Sent Events.
+   * The Monid API key is sent as a header on the start request only — it is
+   * never placed in the stream URL.
+   */
+  const streamRun = async (startUrl, body) => {
+    const headers = { 'Content-Type': 'application/json' };
+    if (monidApiKey) headers['x-monid-api-key'] = monidApiKey;
+
+    const startRes = await fetch(startUrl, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body)
+    });
+
+    const startPayload = await startRes.json();
+
+    if (!startRes.ok || !startPayload.runId) {
+      const err = new Error(startPayload.message || startPayload.error || 'Failed to start run');
+      err.status = startRes.status;
+      err.payload = startPayload;
+      throw err;
+    }
+
+    return new Promise((resolve, reject) => {
+      let settled = false;
+      const es = new EventSource(`/api/runs/stream?runId=${encodeURIComponent(startPayload.runId)}`);
+
+      es.addEventListener('progress', (ev) => {
+        try {
+          setProgressEvents(prev => [...prev, JSON.parse(ev.data)]);
+        } catch (e) { /* ignore malformed frame */ }
+      });
+
+      es.addEventListener('complete', (ev) => {
+        settled = true;
+        es.close();
+        try {
+          resolve(JSON.parse(ev.data));
+        } catch (e) {
+          reject(new Error('Malformed completion payload'));
+        }
+      });
+
+      es.addEventListener('failed', (ev) => {
+        settled = true;
+        es.close();
+        let detail = {};
+        try { detail = JSON.parse(ev.data); } catch (e) { /* ignore */ }
+        const err = new Error(detail.error || 'Investigation failed');
+        err.payload = detail;
+        reject(err);
+      });
+
+      es.onerror = () => {
+        if (settled) return;
+        es.close();
+        // Stream unavailable — fall back to polling rather than failing.
+        pollRun(startPayload.runId).then(resolve, reject);
+      };
+    });
+  };
+
   // Cost confirmation dialog handler
   const confirmAndExecute = (action) => {
     setPendingAction(() => action);
@@ -92,28 +185,21 @@ export default function App() {
       setResultsData(null);
       setErrorMessage(null);
       setErrorDetails(null);
+      setProgressEvents([]);
 
       try {
-        const endpoint = isBenchmark ? '/api/analyze-multi' : '/api/analyze';
         const body = isBenchmark ? { mode: 'benchmark' } : { asin: cleanAsin };
+        const payload = await streamRun('/api/analyze/start', body);
 
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
-        });
-
-        const payload = await response.json();
-
-        if (!response.ok || !payload.success) {
-          throw new Error(payload.message || payload.error || 'Failed to retrieve product data from Monid');
+        if (!payload?.success) {
+          throw new Error(payload?.error || 'Failed to retrieve product data from Monid');
         }
 
         setResultsData(payload.data);
       } catch (err) {
         console.error('Analysis error:', err);
         setErrorMessage(err.message || 'An error occurred while connecting to the Monid review pipeline.');
-        setErrorDetails(null);
+        setErrorDetails(err.payload?.executionMetadata || null);
       } finally {
         setIsLoading(false);
       }
@@ -131,34 +217,16 @@ export default function App() {
       setResultsData(null);
       setErrorMessage(null);
       setErrorDetails(null);
+      setProgressEvents([]);
 
       try {
-        const headers = { 'Content-Type': 'application/json' };
-        if (monidApiKey) {
-          headers['x-monid-api-key'] = monidApiKey;
-        }
-
-        const response = await fetch('/api/investigate', {
-          method: 'POST',
-          headers,
-          body: JSON.stringify({ 
-            category, 
-            searchQuery: searchQuery || category 
-          })
+        const payload = await streamRun('/api/investigate/start', {
+          category,
+          searchQuery: searchQuery || category
         });
 
-        const payload = await response.json();
-
-        // If trial limit reached, open the modal to help them connect their key
-        if (response.status === 429 && payload.trialExhausted) {
-          setIsKeyModalOpen(true);
-          setErrorMessage(payload.message);
-          return;
-        }
-
-        if (!response.ok || !payload.success) {
-          setErrorDetails(payload.executionMetadata || null);
-          throw new Error(payload.message || payload.error || 'Investigation failed');
+        if (!payload?.success) {
+          throw new Error(payload?.error || 'Investigation failed');
         }
 
         if (payload.trialInfo) {
@@ -168,6 +236,15 @@ export default function App() {
         setResultsData(payload.data);
       } catch (err) {
         console.error('Investigation error:', err);
+
+        // Trial exhausted — open the modal so they can connect their own key
+        if (err.status === 429 && err.payload?.trialExhausted) {
+          setIsKeyModalOpen(true);
+          setErrorMessage(err.payload.message);
+          return;
+        }
+
+        setErrorDetails(err.payload?.executionMetadata || null);
         setErrorMessage(err.message || 'An error occurred during the market investigation.');
       } finally {
         setIsLoading(false);
@@ -207,21 +284,12 @@ export default function App() {
     setCurrentAsin('INVESTIGATION: Portable Blenders');
     setResultsData(null);
     setErrorMessage(null);
+    setProgressEvents([]);
 
     try {
-      const headers = { 'Content-Type': 'application/json' };
-      if (monidApiKey) {
-        headers['x-monid-api-key'] = monidApiKey;
-      }
-
-      const response = await fetch('/api/investigate', {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ category: 'Portable Blenders' })
-      });
-      const payload = await response.json();
-      if (!response.ok || !payload.success) {
-        throw new Error(payload.message || 'Failed to load investigation');
+      const payload = await streamRun('/api/investigate/start', { category: 'Portable Blenders' });
+      if (!payload?.success) {
+        throw new Error(payload?.error || 'Failed to load investigation');
       }
       setResultsData(payload.data);
     } catch (err) {
@@ -241,6 +309,7 @@ export default function App() {
     setErrorDetails(null);
     setShowConfirmDialog(false);
     setPendingAction(null);
+    setProgressEvents([]);
   };
 
   return (
@@ -340,8 +409,9 @@ export default function App() {
 
         {/* Interactive State Rendering */}
         {isLoading && currentAsin ? (
-          <AnalysisProgress 
-            asin={currentAsin} 
+          <AnalysisProgress
+            asin={currentAsin}
+            events={progressEvents}
           />
         ) : resultsData ? (
           <ResultsDashboard data={resultsData} initialTab={dashboardTab} />

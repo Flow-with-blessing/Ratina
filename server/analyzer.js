@@ -106,10 +106,16 @@ export function analyzeProductIntelligence(rawResult) {
   const category = apifyData.breadcrumbs || 'Amazon Product Catalog';
   const imageUrl = (apifyData.images && apifyData.images[0]) || '📦';
   const price = apifyData.price || null;
-  const rating = parseFloat(apifyData.rating_stars || 4.6);
-  
-  // Total Amazon Ratings metadata count (e.g. 39,832)
-  const totalAmazonRatings = parseInt(apifyData.rating_count || 39832, 10);
+
+  // DATA INTEGRITY: never invent catalog metadata. If the scrape did not
+  // return a rating or a rating count, report it as unavailable rather than
+  // substituting a plausible-looking default — a fabricated 4.6★ / 39,832
+  // ratings would flow straight into the risk score and the verdict text.
+  const parsedRating = parseFloat(apifyData.rating_stars ?? apifyData.rating);
+  const rating = Number.isFinite(parsedRating) ? parsedRating : null;
+
+  const parsedRatingCount = parseInt(apifyData.rating_count, 10);
+  const totalAmazonRatings = Number.isFinite(parsedRatingCount) ? parsedRatingCount : null;
 
   // DATA INTEGRITY CORE: Exact individual review objects retrieved & analyzed
   const actualReviewsRetrieved = rawReviews.length;
@@ -118,7 +124,9 @@ export function analyzeProductIntelligence(rawResult) {
   // Confidence Level Determination based on actual analyzed review sample size
   let confidenceLevel = "Moderate";
   let confidenceBadgeColor = "#F59E0B";
-  let confidenceExplanation = `${actualReviewsAnalyzed} live individual customer reviews analyzed from ${totalAmazonRatings.toLocaleString()} total Amazon ratings.`;
+  let confidenceExplanation = totalAmazonRatings !== null
+    ? `${actualReviewsAnalyzed} live individual customer reviews analyzed from ${totalAmazonRatings.toLocaleString()} total Amazon ratings.`
+    : `${actualReviewsAnalyzed} live individual customer reviews analyzed. Total Amazon rating count was not returned by this scrape.`;
 
   if (actualReviewsAnalyzed >= 50) {
     confidenceLevel = "High";
@@ -128,11 +136,15 @@ export function analyzeProductIntelligence(rawResult) {
     confidenceBadgeColor = "#F59E0B";
   }
 
-  // Parse rating distribution percentages
+  // Parse rating distribution percentages — absent distribution contributes
+  // zero, it does not get filled in with assumed 1★/2★ percentages.
   const ratingDist = apifyData.rating_distribution || {};
-  const oneStarPct = parseInt(ratingDist['1star'] || '4%', 10);
-  const twoStarPct = parseInt(ratingDist['2star'] || '2%', 10);
-  const criticalReviewRatio = (oneStarPct + twoStarPct) / 100;
+  const oneStarPct = parseInt(ratingDist['1star'], 10);
+  const twoStarPct = parseInt(ratingDist['2star'], 10);
+  const hasRatingDistribution = Number.isFinite(oneStarPct) || Number.isFinite(twoStarPct);
+  const criticalReviewRatio = hasRatingDistribution
+    ? ((Number.isFinite(oneStarPct) ? oneStarPct : 0) + (Number.isFinite(twoStarPct) ? twoStarPct : 0)) / 100
+    : 0;
 
   // Perform Evidence Traceability Matching across failure dictionaries on individual review records
   const detectedPatterns = [];
@@ -155,9 +167,12 @@ export function analyzeProductIntelligence(rawResult) {
           const excerptText = rev.reviewText || rev.reviewTitle || 'Customer reported functional defect during use.';
           const formattedDate = rev.reviewDate ? String(rev.reviewDate).replace(/^Reviewed in the United States on /, '') : 'Verified Purchase';
           
+          const evidenceRating = parseFloat(rev.reviewRating ?? rev.rating ?? rev.stars);
+
           customerEvidence.push({
             quote: `"${excerptText}"`,
-            rating: rev.reviewRating || 1,
+            // Null, not an assumed 1★, when the review's own rating is absent.
+            rating: Number.isFinite(evidenceRating) ? evidenceRating : null,
             date: formattedDate,
             verified: rev.verifiedPurchase !== false,
             helpfulCount: rev.helpfulCount || 0
@@ -199,14 +214,24 @@ export function analyzeProductIntelligence(rawResult) {
   // Sort patterns by supporting review count
   detectedPatterns.sort((a, b) => b.supportingReviewsCount - a.supportingReviewsCount);
 
-  // Compute Product Risk Score (1-100)
-  const baseRisk = Math.round((5 - rating) * 30);
+  // Compute Product Risk Score (1-100) from retrieved data only.
+  const hasRating = rating !== null;
+  const baseRisk = hasRating ? Math.round((5 - rating) * 30) : 0;
   const criticalBoost = Math.round(criticalReviewRatio * 40);
-  const riskScore = Math.min(95, Math.max(15, baseRisk + criticalBoost + (detectedPatterns[0]?.severity === 'high' ? 15 : 5)));
+  const patternBoost = detectedPatterns[0]?.severity === 'high' ? 15 : 5;
+  const riskScore = Math.min(95, Math.max(15, baseRisk + criticalBoost + patternBoost));
+
+  // With no catalog rating AND no failure evidence retrieved, the score has
+  // nothing behind it. Report that honestly instead of showing "LOW RISK",
+  // which would read as a clean bill of health for a failed scrape.
+  const riskIndeterminate = !hasRating && detectedPatterns.length === 0;
 
   let riskLevel = "MODERATE RISK";
   let riskColor = "#F59E0B";
-  if (riskScore >= 75) {
+  if (riskIndeterminate) {
+    riskLevel = "INSUFFICIENT DATA";
+    riskColor = "#F59E0B";
+  } else if (riskScore >= 75) {
     riskLevel = "HIGH RISK";
     riskColor = "#EF4444";
   } else if (riskScore < 45) {
@@ -214,20 +239,30 @@ export function analyzeProductIntelligence(rawResult) {
     riskColor = "#22C55E";
   }
 
+  // Display-safe strings so an unavailable value never renders as "null/5".
+  const ratingText = hasRating ? `${rating}/5` : 'rating unavailable';
+  const ratingsCountText = totalAmazonRatings !== null
+    ? `${totalAmazonRatings.toLocaleString()} ratings`
+    : 'an undisclosed number of ratings';
+
   // Generate Executive Ratina Verdict
   const topFailure = detectedPatterns[0];
   let verdictText = "PASS — LOW MANUFACTURING DEFECT CONCENTRATION";
   let statusBadge = "pass";
-  let summary = `Live Amazon analysis for ${productName} (ASIN: ${asin}) indicates strong overall satisfaction (${rating}/5 across ${totalAmazonRatings.toLocaleString()} ratings). Based on ${actualReviewsAnalyzed} analyzed individual live reviews, primary area for investigation: ${topFailure?.name || 'Standard wear'}. Validate quality testing with suppliers prior to production sign-off.`;
+  let summary = `Live Amazon analysis for ${productName} (ASIN: ${asin}) indicates strong overall satisfaction (${ratingText} across ${ratingsCountText}). Based on ${actualReviewsAnalyzed} analyzed individual live reviews, primary area for investigation: ${topFailure?.name || 'Standard wear'}. Validate quality testing with suppliers prior to production sign-off.`;
 
-  if (riskScore >= 70) {
+  if (riskIndeterminate) {
+    verdictText = "INSUFFICIENT DATA — RETRIEVAL INCOMPLETE";
+    statusBadge = "action-required";
+    summary = `The Monid retrieval for ASIN ${asin} returned no catalog rating and no matching failure evidence across ${actualReviewsAnalyzed} analyzed review(s). This is a data availability limitation, not evidence that the product is defect-free. Re-run the retrieval before drawing a sourcing conclusion.`;
+  } else if (riskScore >= 70) {
     verdictText = "HIGH RISK — SUPPLIER VALIDATION & TESTING MANDATORY";
     statusBadge = "critical";
     summary = `Critical failure pattern signals identified in retrieved review sample for ASIN ${asin}. ${topFailure?.name} represents a key customer concern area. Mandate supplier testing validation before committing purchase orders.`;
   } else if (riskScore >= 50) {
     verdictText = "CONDITIONAL PASS — SUPPLIER TESTING RECOMMENDED";
     statusBadge = "action-required";
-    summary = `Product demand is high (${rating}/5), but area for supplier validation identified: ${topFailure?.name} (${topFailure?.supportingReviewsCount} supporting reviews out of ${actualReviewsAnalyzed} analyzed). Require supplier to validate quality testing directives.`;
+    summary = `Product demand is high (${ratingText}), but area for supplier validation identified: ${topFailure?.name} (${topFailure?.supportingReviewsCount} supporting reviews out of ${actualReviewsAnalyzed} analyzed). Require supplier to validate quality testing directives.`;
   }
 
   return {
@@ -236,7 +271,11 @@ export function analyzeProductIntelligence(rawResult) {
     category,
     imageUrl: typeof imageUrl === 'string' && imageUrl.startsWith('http') ? imageUrl : '📦',
     rating,
+    ratingDisplay: ratingText,
+    ratingAvailable: hasRating,
     totalAmazonRatings,
+    totalAmazonRatingsDisplay: ratingsCountText,
+    riskIndeterminate,
     actualReviewsRetrieved,
     actualReviewsAnalyzed,
     confidence: {
