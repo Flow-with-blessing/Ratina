@@ -69,7 +69,14 @@ export async function runMonidEndpoint({ provider, endpoint, input, timeoutSec =
       const startTime = Date.now();
       console.log(`[Monid Call ${callId}] Attempt ${attempt + 1}/${maxRetries + 1}: ${provider}${endpoint} ${context}`);
       
-      const env = apiKey ? { ...process.env, MONID_API_KEY: apiKey } : process.env;
+      const binDir = path.join(process.cwd(), 'node_modules', '.bin');
+      const pathSeparator = process.platform === 'win32' ? ';' : ':';
+      const augmentedPath = `${binDir}${pathSeparator}${process.env.PATH || ''}`;
+
+      const env = {
+        ...(apiKey ? { ...process.env, MONID_API_KEY: apiKey } : process.env),
+        PATH: augmentedPath
+      };
 
       const { stdout, stderr } = await execAsync(cmd, { 
         cwd: process.cwd(),
