@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { fetchAmazonDataWithMonid } from './monidService.js';
 import { analyzeProductIntelligence } from './analyzer.js';
 import { runInvestigation } from './investigationEngine.js';
@@ -15,6 +17,12 @@ const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+
+// Production: Serve the built Vite frontend
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const distPath = path.join(__dirname, '..', 'dist');
+app.use(express.static(distPath));
 
 // In-memory store for the last investigation result (for exports)
 let lastInvestigationResult = null;
@@ -51,9 +59,8 @@ app.get('/api/health', (req, res) => {
     monidIntegration: 'active',
     mcpServer: 'available (stdio: node server/mcpServer.js)',
     timestamp: new Date().toISOString(),
-    sprintBudgetUsed: `$${sprintTotalSpend.toFixed(5)}`,
-    sprintBudgetRemaining: `$${(SPRINT_BUDGET_MAX - sprintTotalSpend).toFixed(5)}`,
-    cache: getCacheStats()
+    budgetStatus: sprintTotalSpend >= SPRINT_BUDGET_MAX ? 'exhausted' : 'active',
+    cacheStatus: `${getCacheStats().cachedCategories} categories cached`
   });
 });
 
@@ -614,6 +621,11 @@ app.post('/api/mcp', async (req, res) => {
       result: { content: [{ type: 'text', text: `Error: ${error.message}` }], isError: true }
     });
   }
+});
+
+// SPA Fallback: Any non-API route serves the React app
+app.get('{*splat}', (req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'));
 });
 
 app.listen(PORT, () => {

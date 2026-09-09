@@ -32,6 +32,19 @@ function generateCallId() {
  * @returns {Object} Result with success, output, callMetadata, warnings
  */
 export async function runMonidEndpoint({ provider, endpoint, input, timeoutSec = 120, maxRetries = 2, context = '', apiKey }) {
+  // SECURITY: Validate provider and endpoint contain only safe CLI characters
+  const SAFE_CLI_ARG = /^[a-zA-Z0-9\/_-]+$/;
+  if (!SAFE_CLI_ARG.test(provider) || !SAFE_CLI_ARG.test(endpoint)) {
+    return {
+      success: false,
+      provider,
+      endpoint,
+      error: `Invalid characters in provider/endpoint: "${provider}${endpoint}"`,
+      callMetadata: { callId: generateCallId(), provider, endpoint: `${provider}${endpoint}`, costUSD: 0, httpStatus: 'REJECTED' },
+      warnings: ['Request rejected: provider/endpoint failed character validation']
+    };
+  }
+
   const tempDir = path.join(process.cwd(), 'temp');
   if (!fs.existsSync(tempDir)) {
     fs.mkdirSync(tempDir, { recursive: true });
