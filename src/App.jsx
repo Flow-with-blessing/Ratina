@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import AnalysisCard from './components/AnalysisCard';
+import EmptyState from './components/EmptyState';
 import AnalysisProgress from './components/AnalysisProgress';
 import ResultsDashboard from './components/ResultsDashboard';
 import MonidKeyModal from './components/MonidKeyModal';
@@ -344,7 +345,9 @@ export default function App() {
           />
         ) : resultsData ? (
           <ResultsDashboard data={resultsData} initialTab={dashboardTab} />
-        ) : null}
+        ) : !errorMessage && (
+          <EmptyState />
+        )}
       </main>
 
       {/* Sleek Footer */}

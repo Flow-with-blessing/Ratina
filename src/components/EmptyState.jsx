@@ -1,7 +1,7 @@
 import React from 'react';
-import { ShieldAlert, Cpu, Wrench, Sparkles, ArrowRight } from 'lucide-react';
+import { ShieldAlert, Cpu, Wrench } from 'lucide-react';
 
-export default function EmptyState({ onQuickLoad, onLoadSaved }) {
+export default function EmptyState() {
   return (
     <div className="empty-state-wrapper">
       {/* Animated Radar Scanning Visual */}
@@ -19,40 +19,12 @@ export default function EmptyState({ onQuickLoad, onLoadSaved }) {
       </div>
 
       <h3 className="empty-state-title">
-        Automated Defect Reverse-Engineering Pipeline
+        Enter an Amazon ASIN to uncover recurring customer pain points.
       </h3>
 
       <p className="empty-state-subtext">
-        Auditing competing products on Amazon before manufacturing prevents costly tooling revisions, high return rates, and 1-star reviews.
+        Ratina extracts reviews via Monid, runs failure pattern clustering, and delivers actionable factory directives before you commit capital.
       </p>
-
-      {/* Quick Interactive Demo Pills */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '2.5rem', flexWrap: 'wrap' }}>
-        <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', fontWeight: '500' }}>
-          Explore instant benchmark:
-        </span>
-        <button
-          type="button"
-          onClick={() => onQuickLoad && onQuickLoad('decision')}
-          className="btn-proven-run"
-          style={{ padding: '0.4rem 0.85rem', fontSize: '0.8rem' }}
-          title="Instant 5-competitor audit from cache ($0.00)"
-        >
-          <Sparkles size={14} style={{ color: 'var(--accent-lime)' }} />
-          <span>🥤 Portable Blenders ($0.00 Cache)</span>
-          <ArrowRight size={13} />
-        </button>
-        <button
-          type="button"
-          onClick={() => onLoadSaved && onLoadSaved()}
-          className="btn-load-saved"
-          style={{ padding: '0.4rem 0.85rem', fontSize: '0.8rem' }}
-          title="Pre-computed 5-brand benchmark"
-        >
-          <span>☕ French Press Benchmark</span>
-          <ArrowRight size={13} />
-        </button>
-      </div>
 
       {/* Feature Preview Cards */}
       <div className="features-preview-grid">
