@@ -27,9 +27,15 @@ import {
 } from 'lucide-react';
 import McpConsole from './McpConsole';
 
-export default function ResultsDashboard({ data }) {
-  const [activeTab, setActiveTab] = useState('decision');
+export default function ResultsDashboard({ data, initialTab = 'decision' }) {
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [copiedText, setCopiedText] = useState('');
+
+  React.useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
 
   if (!data) return null;
 

@@ -14,6 +14,7 @@ export default function App() {
   const [errorDetails, setErrorDetails] = useState(null);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [pendingAction, setPendingAction] = useState(null);
+  const [dashboardTab, setDashboardTab] = useState('decision');
 
   // Theme State with localStorage persistence (Default: Dark)
   const [theme, setTheme] = useState(() => {
@@ -150,6 +151,34 @@ export default function App() {
     }
   };
 
+  // Quick load from interactive hero proof badges (Instant from cache, $0.00)
+  const handleQuickLoadBadge = async (targetTab = 'decision') => {
+    setDashboardTab(targetTab);
+    setIsLoading(true);
+    setCurrentAsin('INVESTIGATION: Portable Blenders');
+    setResultsData(null);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch('/api/investigate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ category: 'Portable Blenders' })
+      });
+      const payload = await response.json();
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || 'Failed to load investigation');
+      }
+      setResultsData(payload.data);
+    } catch (err) {
+      console.error('Quick load error:', err);
+      // Graceful fallback to saved benchmark
+      handleLoadSaved();
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleReset = () => {
     setCurrentAsin(null);
     setIsLoading(false);
@@ -173,25 +202,37 @@ export default function App() {
       {/* Cost Confirmation Dialog */}
       {showConfirmDialog && (
         <div className="confirm-overlay" onClick={handleCancelRun}>
-          <div className="confirm-dialog" onClick={e => e.stopPropagation()}>
-            <h3 className="confirm-title">Start live investigation?</h3>
-            <p className="confirm-body">
-              This investigation will make <strong>live Monid API calls</strong> and charge your Monid balance.
-            </p>
-            <div className="confirm-budget-box">
-              <div className="confirm-budget-line">
-                <span>Expected test budget:</span>
-                <strong>approximately $0.02–$0.05</strong>
+          <div className="confirm-modal" onClick={e => e.stopPropagation()}>
+            <div className="confirm-header">
+              <span className="confirm-icon">⚠️</span>
+              <h3>Confirm Live Monid Gateway Execution</h3>
+            </div>
+            <div className="confirm-body">
+              <p>This action will make live calls to Amazon review scrapers via the Monid platform.</p>
+              <div className="confirm-pricing-box">
+                <div className="pricing-row">
+                  <span>Target:</span>
+                  <strong>Live Amazon Catalog & Reviews</strong>
+                </div>
+                <div className="pricing-row">
+                  <span>Per-ASIN scraper cost:</span>
+                  <strong>$0.0036 / competitor</strong>
+                </div>
+                <div className="pricing-row highlight">
+                  <span>Estimated Total Run Cost:</span>
+                  <strong className="text-lime">~$0.018 USD (5 ASINs)</strong>
+                </div>
               </div>
-              <div className="confirm-budget-note">
-                Actual cost will be measured after execution.
-              </div>
+              <p className="confirm-note">
+                Actual charges will be precisely tracked and displayed in the Monid Cost Receipt upon completion.
+              </p>
             </div>
             <div className="confirm-actions">
-              <button className="btn-secondary" onClick={handleCancelRun}>Cancel</button>
-              <button className="btn-primary" onClick={handleConfirmRun}>
-                <span className="monid-dot" style={{ backgroundColor: '#22c55e' }}></span>
-                Run Investigation
+              <button onClick={handleCancelRun} className="btn-secondary">
+                Cancel
+              </button>
+              <button onClick={handleConfirmRun} className="btn-primary-confirm">
+                Authorize & Run Live (~$0.018)
               </button>
             </div>
           </div>
@@ -202,7 +243,7 @@ export default function App() {
       <main className="main-content">
         {/* Top Hero Heading */}
         {!resultsData && !isLoading && (
-          <Hero />
+          <Hero onSelectBadge={handleQuickLoadBadge} />
         )}
 
         {/* Input Card */}
@@ -245,7 +286,7 @@ export default function App() {
             asin={currentAsin} 
           />
         ) : resultsData ? (
-          <ResultsDashboard data={resultsData} />
+          <ResultsDashboard data={resultsData} initialTab={dashboardTab} />
         ) : !errorMessage && (
           <EmptyState onSelectSample={handleStartAnalysis} />
         )}

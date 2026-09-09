@@ -1,7 +1,7 @@
 import React from 'react';
-import { ShieldCheck, Sparkles, Layers, DollarSign, Zap, ExternalLink, Terminal } from 'lucide-react';
+import { ShieldCheck, Sparkles, Layers, DollarSign, Zap, ExternalLink, Terminal, ChevronRight } from 'lucide-react';
 
-export default function Hero() {
+export default function Hero({ onSelectBadge }) {
   return (
     <section className="hero-section">
       {/* The Kill — What Died, in the first 5 seconds */}
@@ -58,23 +58,44 @@ export default function Hero() {
         or through this visual playground. Pay $0.018 per investigation through Monid.
       </p>
 
+      {/* Interactive Proof Badges Row */}
       <div className="hero-badges-row">
-        <div className="hero-proof-badge">
+        <button 
+          className="hero-proof-badge clickable" 
+          onClick={() => onSelectBadge && onSelectBadge('decision')}
+          title="Click to view live 5-competitor audit"
+        >
           <ShieldCheck size={14} className="badge-icon-emerald" />
           <span>Live Amazon Data via Monid</span>
-        </div>
-        <div className="hero-proof-badge">
+          <ChevronRight size={12} className="badge-arrow" />
+        </button>
+        <button 
+          className="hero-proof-badge clickable" 
+          onClick={() => onSelectBadge && onSelectBadge('matrix')}
+          title="Click to view failure patterns across competitors"
+        >
           <Layers size={14} className="badge-icon-indigo" />
           <span>Cross-Competitor Failure Matrix</span>
-        </div>
-        <div className="hero-proof-badge">
+          <ChevronRight size={12} className="badge-arrow" />
+        </button>
+        <button 
+          className="hero-proof-badge clickable" 
+          onClick={() => onSelectBadge && onSelectBadge('receipt')}
+          title="Click to inspect exact $0.01815 Monid receipt"
+        >
           <DollarSign size={14} className="badge-icon-amber" />
           <span>Measured Cost: $0.01815 for 5 competitors</span>
-        </div>
-        <div className="hero-proof-badge">
+          <ChevronRight size={12} className="badge-arrow" />
+        </button>
+        <button 
+          className="hero-proof-badge clickable" 
+          onClick={() => onSelectBadge && onSelectBadge('mcp')}
+          title="Click to test live Agent MCP Console"
+        >
           <Terminal size={14} className="badge-icon-blue" />
           <span>MCP Server for Claude / Cursor</span>
-        </div>
+          <ChevronRight size={12} className="badge-arrow" />
+        </button>
       </div>
 
       {/* MCP Quick-Start Snippet */}
