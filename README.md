@@ -43,9 +43,16 @@ There is **no LLM in the analysis path**, which is why the same input always
 produces the same output, and why there is nothing in the pipeline that can
 hallucinate a defect that no reviewer reported.
 
-**Proven on:**
-- French Press Coffee Makers (5 competitors, 250 reviews, $0.01815 total Monid cost)
-- Portable Blenders (21 candidates discovered, 5 selected, 250 reviews)
+**Proven on** (figures below match the committed proof artifacts in `temp/`, so you can check them):
+
+| Run | Competitors | Reviews retrieved | Monid calls | Cost |
+|---|---|---|---|---|
+| Portable Blenders | 21 candidates discovered → 5 selected | 250 (50 each) | 11 | $0.01815 |
+| French Press Coffee Makers | 5 | 117 (50/50/11/3/3) | 10 | $0.01800 |
+
+The French Press run is the weaker of the two on purpose: two competitors returned
+only 3 reviews each. Ratina reports that as `SPARSE DATASET` and reduces its
+evidence confidence rather than treating a thin sample as "no defects found".
 
 ---
 
