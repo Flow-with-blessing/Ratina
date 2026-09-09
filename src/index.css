@@ -264,7 +264,47 @@ h1, h2, h3, h4, h5, h6 {
   animation: pulse-dot 2s infinite;
 }
 
-/* Theme Toggle Button */
+/* Theme Toggle & Nav Utilities */
+.nav-divider {
+  width: 1px;
+  height: 20px;
+  background-color: var(--border-subtle);
+  margin: 0 0.15rem;
+}
+
+.theme-toggle-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background-color: var(--surface-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.theme-toggle-icon-btn:hover {
+  border-color: var(--border-hover);
+  background-color: var(--surface-hover);
+  color: var(--text-primary);
+  transform: scale(1.05);
+}
+
+.theme-toggle-icon-btn:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle-icon-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle-icon-btn:hover svg {
+  transform: rotate(18deg);
+}
+
 .theme-toggle-btn {
   display: inline-flex;
   align-items: center;

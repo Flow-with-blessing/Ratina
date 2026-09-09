@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search, ArrowRight, Layers, Database, ShieldCheck, Award, Globe, BookOpen } from 'lucide-react';
 
-export default function AnalysisCard({ onAnalyze, onInvestigate, onLoadSaved, isLoading }) {
+export default function AnalysisCard({ onAnalyze, onInvestigate, onLoadSaved, onQuickLoad, isLoading }) {
   const [asinInput, setAsinInput] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [showCustomInvestigation, setShowCustomInvestigation] = useState(false);
@@ -83,15 +83,26 @@ export default function AnalysisCard({ onAnalyze, onInvestigate, onLoadSaved, is
             </div>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
           <button
             type="button"
-            onClick={handleTriggerProvenLiveBenchmark}
+            onClick={() => onQuickLoad ? onQuickLoad('decision') : handleTriggerProvenLiveBenchmark()}
             className="btn-proven-run"
             disabled={isLoading}
+            title="Instant 5-competitor audit from cache ($0.00)"
           >
-            <Layers size={16} />
-            <span>French Press Benchmark →</span>
+            <span>🥤 Portable Blenders ($0.00)</span>
+          </button>
+          <button
+            type="button"
+            onClick={onLoadSaved || handleTriggerProvenLiveBenchmark}
+            className="btn-proven-run"
+            style={{ background: 'var(--surface-elevated)', borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
+            disabled={isLoading}
+            title="French Press multi-brand benchmark"
+          >
+            <Layers size={14} />
+            <span>☕ French Press</span>
           </button>
           <button
             type="button"
@@ -100,8 +111,8 @@ export default function AnalysisCard({ onAnalyze, onInvestigate, onLoadSaved, is
             style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15))', borderColor: 'rgba(99,102,241,0.3)' }}
             disabled={isLoading}
           >
-            <Globe size={16} />
-            <span>New Category Investigation →</span>
+            <Globe size={14} />
+            <span>New Category →</span>
           </button>
         </div>
       </div>
@@ -149,21 +160,6 @@ export default function AnalysisCard({ onAnalyze, onInvestigate, onLoadSaved, is
               <span>Dynamic Discovery: Ratina will search Amazon, select 5 top competitors, retrieve live data, and generate a full failure analysis.</span>
             </div>
           </form>
-        </div>
-      )}
-
-      {/* Saved Benchmark Option */}
-      {onLoadSaved && (
-        <div style={{ padding: '0 1.25rem' }}>
-          <button
-            type="button"
-            onClick={onLoadSaved}
-            className="btn-load-saved"
-            disabled={isLoading}
-          >
-            <BookOpen size={14} />
-            <span>View Saved French Press Benchmark (No Monid Cost)</span>
-          </button>
         </div>
       )}
 

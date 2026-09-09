@@ -104,23 +104,6 @@ export default function Hero({ onSelectBadge }) {
           <ChevronRight size={14} className="badge-arrow" />
         </button>
       </div>
-
-      {/* MCP Quick-Start Snippet */}
-      <div className="hero-mcp-snippet">
-        <div className="hero-mcp-label">
-          <Terminal size={13} />
-          <span>Add to claude_desktop_config.json</span>
-        </div>
-        <pre className="hero-mcp-code">{`{
-  "mcpServers": {
-    "ratina-ai": {
-      "command": "node",
-      "args": ["server/mcpServer.js"],
-      "cwd": "/path/to/Ratina.Ai"
-    }
-  }
-}`}</pre>
-      </div>
     </section>
   );
 }

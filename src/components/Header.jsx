@@ -51,27 +51,7 @@ export default function Header({
         </div>
 
         {/* Header Right Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-          {/* Theme Toggle Button */}
-          <button
-            onClick={onToggleTheme}
-            className="theme-toggle-btn"
-            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            aria-label="Toggle Light/Dark Theme"
-          >
-            {theme === 'dark' ? (
-              <>
-                <Sun size={15} style={{ color: '#F59E0B' }} />
-                <span>Light</span>
-              </>
-            ) : (
-              <>
-                <Moon size={15} style={{ color: '#6366F1' }} />
-                <span>Dark</span>
-              </>
-            )}
-          </button>
-
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           {/* Interactive Monid Connection & Key Button */}
           <button 
             onClick={onOpenKeyModal}
@@ -106,6 +86,23 @@ export default function Header({
             <span>Monid Docs</span>
             <ExternalLink size={12} />
           </a>
+
+          {/* Vertical Utility Divider */}
+          <div className="nav-divider" />
+
+          {/* Far-Right Theme Toggle (Icon-Only Sleek Anchor) */}
+          <button
+            onClick={onToggleTheme}
+            className="theme-toggle-icon-btn"
+            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            aria-label="Toggle Light/Dark Theme"
+          >
+            {theme === 'dark' ? (
+              <Sun size={17} style={{ color: '#F59E0B' }} />
+            ) : (
+              <Moon size={17} style={{ color: '#6366F1' }} />
+            )}
+          </button>
         </div>
       </div>
     </header>
