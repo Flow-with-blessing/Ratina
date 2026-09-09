@@ -628,11 +628,12 @@ app.get('{*splat}', (req, res) => {
   res.sendFile(path.join(distPath, 'index.html'));
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Ratina.ai — Amazon Product Intelligence API & MCP Server`);
-  console.log(`   HTTP API:  http://localhost:${PORT}/api/investigate`);
-  console.log(`   MCP HTTP:  http://localhost:${PORT}/api/mcp`);
-  console.log(`   MCP stdio: node server/mcpServer.js`);
-  console.log(`   Cache:     ${getCacheStats().cachedCategories} categories pre-loaded`);
+  console.log(`   Host & Port: 0.0.0.0:${PORT} (env PORT=${process.env.PORT || 'default 3001'})`);
+  console.log(`   HTTP API:    http://0.0.0.0:${PORT}/api/investigate`);
+  console.log(`   MCP HTTP:    http://0.0.0.0:${PORT}/api/mcp`);
+  console.log(`   MCP stdio:   node server/mcpServer.js`);
+  console.log(`   Cache:       ${getCacheStats().cachedCategories} categories pre-loaded`);
   console.log(`📊 Sprint budget: $${SPRINT_BUDGET_MAX.toFixed(2)} max additional spend`);
 });
