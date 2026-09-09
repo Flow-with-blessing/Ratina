@@ -1,0 +1,11 @@
+{
+  "input": [
+    {
+      "asin": "B000KEM4TQ",
+      "domainCode": "com",
+      "sortBy": "recent",
+      "filterByStar": "critical",
+      "maxPages": 3
+    }
+  ]
+}

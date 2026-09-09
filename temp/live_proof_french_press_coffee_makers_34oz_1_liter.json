@@ -1,0 +1,535 @@
+{
+  "timestamp": "2026-09-07T08:03:13.472Z",
+  "mode": "PRESET_ASIN_ANALYSIS",
+  "category": "French Press Coffee Makers (34oz / 1-Liter)",
+  "dataLimitations": {
+    "highConfidenceDataset": [
+      "B00008XEWG (50 reviews)",
+      "B000KEM4TQ (50 reviews)",
+      "B00004Y6A2 (11 reviews)"
+    ],
+    "sparseDatasetNotice": "ASINs B01J4327D8 (ASIN: B01J4327D8), B07N3ZJDFR (ASIN: B07N3ZJDFR) returned only 3/3 reviews. Their failure counts must NOT be interpreted as perfect product quality, but rather as INSUFFICIENT SAMPLE DEPTH."
+  },
+  "strictCompetitorSummary": [
+    {
+      "asin": "B00008XEWG",
+      "name": "Bodum 34oz Chambord French Press Coffee Maker, High-Heat Borosilicate Glass, Polished Stainless Steel – Made in Portugal",
+      "title": "Bodum 34oz Chambord French Press Coffee Maker, High-Heat Borosilicate Glass, Polished Stainless Steel – Made in Portugal",
+      "livePrice": "$39.69",
+      "liveRating": "4.6",
+      "reviewsRetrieved": 50,
+      "criticalReviewsAnalyzed": 23,
+      "dataQualityStatus": "HIGH CONFIDENCE (50 reviews)",
+      "failureCounts": {
+        "Thermal Shock / Glass Shattering": 8,
+        "Mesh Filter Bypass / Coffee Grounds Sludge": 7,
+        "Plunger Shaft Bending / Threading Strip": 13,
+        "Handle / Frame Instability & Detachment": 15,
+        "Rapid Heat Loss / Thermal Retention Deficit": 5,
+        "Stainless Steel Corrosion / Metallic Degradation": 6
+      },
+      "warnings": []
+    },
+    {
+      "asin": "B000KEM4TQ",
+      "name": "Bodum 34oz Brazil French Press Coffee Maker, High-Heat Borosilicate Glass, Black - Made in Portugal",
+      "title": "Bodum 34oz Brazil French Press Coffee Maker, High-Heat Borosilicate Glass, Black - Made in Portugal",
+      "livePrice": "$19.99",
+      "liveRating": "4.5",
+      "reviewsRetrieved": 50,
+      "criticalReviewsAnalyzed": 23,
+      "dataQualityStatus": "HIGH CONFIDENCE (50 reviews)",
+      "failureCounts": {
+        "Thermal Shock / Glass Shattering": 14,
+        "Mesh Filter Bypass / Coffee Grounds Sludge": 13,
+        "Plunger Shaft Bending / Threading Strip": 17,
+        "Handle / Frame Instability & Detachment": 22,
+        "Rapid Heat Loss / Thermal Retention Deficit": 1,
+        "Stainless Steel Corrosion / Metallic Degradation": 9
+      },
+      "warnings": []
+    },
+    {
+      "asin": "B00004Y6A2",
+      "name": "Physical Ed",
+      "title": "Physical Ed",
+      "livePrice": "UNAVAILABLE",
+      "liveRating": "3.8",
+      "reviewsRetrieved": 11,
+      "criticalReviewsAnalyzed": 4,
+      "dataQualityStatus": "MODERATE CONFIDENCE (11 reviews)",
+      "failureCounts": {
+        "Thermal Shock / Glass Shattering": 0,
+        "Mesh Filter Bypass / Coffee Grounds Sludge": 0,
+        "Plunger Shaft Bending / Threading Strip": 0,
+        "Handle / Frame Instability & Detachment": 0,
+        "Rapid Heat Loss / Thermal Retention Deficit": 0,
+        "Stainless Steel Corrosion / Metallic Degradation": 0
+      },
+      "warnings": []
+    },
+    {
+      "asin": "B01J4327D8",
+      "name": "ASIN: B01J4327D8",
+      "title": "ASIN: B01J4327D8",
+      "livePrice": "UNAVAILABLE",
+      "liveRating": "N/A",
+      "reviewsRetrieved": 3,
+      "criticalReviewsAnalyzed": 0,
+      "dataQualityStatus": "SPARSE DATASET (3 reviews retrieved, insufficient sample size for failure analysis)",
+      "failureCounts": {
+        "Thermal Shock / Glass Shattering": 0,
+        "Mesh Filter Bypass / Coffee Grounds Sludge": 0,
+        "Plunger Shaft Bending / Threading Strip": 0,
+        "Handle / Frame Instability & Detachment": 0,
+        "Rapid Heat Loss / Thermal Retention Deficit": 0,
+        "Stainless Steel Corrosion / Metallic Degradation": 0
+      },
+      "warnings": []
+    },
+    {
+      "asin": "B07N3ZJDFR",
+      "name": "ASIN: B07N3ZJDFR",
+      "title": "ASIN: B07N3ZJDFR",
+      "livePrice": "UNAVAILABLE",
+      "liveRating": "N/A",
+      "reviewsRetrieved": 3,
+      "criticalReviewsAnalyzed": 0,
+      "dataQualityStatus": "SPARSE DATASET (3 reviews retrieved, insufficient sample size for failure analysis)",
+      "failureCounts": {
+        "Thermal Shock / Glass Shattering": 0,
+        "Mesh Filter Bypass / Coffee Grounds Sludge": 0,
+        "Plunger Shaft Bending / Threading Strip": 0,
+        "Handle / Frame Instability & Detachment": 0,
+        "Rapid Heat Loss / Thermal Retention Deficit": 0,
+        "Stainless Steel Corrosion / Metallic Degradation": 0
+      },
+      "warnings": []
+    }
+  ],
+  "strictMatrix": [
+    {
+      "failureMode": "Handle / Frame Instability & Detachment",
+      "failureModeId": "handle-frame",
+      "countsPerProduct": {
+        "B00008XEWG": {
+          "count": 15,
+          "sampleSufficient": true
+        },
+        "B000KEM4TQ": {
+          "count": 22,
+          "sampleSufficient": true
+        },
+        "B00004Y6A2": {
+          "count": 0,
+          "sampleSufficient": true
+        },
+        "B01J4327D8": {
+          "count": 0,
+          "sampleSufficient": false
+        },
+        "B07N3ZJDFR": {
+          "count": 0,
+          "sampleSufficient": false
+        }
+      },
+      "totalObservedMentions": 37,
+      "prevalenceInPrimaryDataset": "2/3 competitors with sufficient data (67%)"
+    },
+    {
+      "failureMode": "Plunger Shaft Bending / Threading Strip",
+      "failureModeId": "plunger-bend",
+      "countsPerProduct": {
+        "B00008XEWG": {
+          "count": 13,
+          "sampleSufficient": true
+        },
+        "B000KEM4TQ": {
+          "count": 17,
+          "sampleSufficient": true
+        },
+        "B00004Y6A2": {
+          "count": 0,
+          "sampleSufficient": true
+        },
+        "B01J4327D8": {
+          "count": 0,
+          "sampleSufficient": false
+        },
+        "B07N3ZJDFR": {
+          "count": 0,
+          "sampleSufficient": false
+        }
+      },
+      "totalObservedMentions": 30,
+      "prevalenceInPrimaryDataset": "2/3 competitors with sufficient data (67%)"
+    },
+    {
+      "failureMode": "Thermal Shock / Glass Shattering",
+      "failureModeId": "glass-shatter",
+      "countsPerProduct": {
+        "B00008XEWG": {
+          "count": 8,
+          "sampleSufficient": true
+        },
+        "B000KEM4TQ": {
+          "count": 14,
+          "sampleSufficient": true
+        },
+        "B00004Y6A2": {
+          "count": 0,
+          "sampleSufficient": true
+        },
+        "B01J4327D8": {
+          "count": 0,
+          "sampleSufficient": false
+        },
+        "B07N3ZJDFR": {
+          "count": 0,
+          "sampleSufficient": false
+        }
+      },
+      "totalObservedMentions": 22,
+      "prevalenceInPrimaryDataset": "2/3 competitors with sufficient data (67%)"
+    },
+    {
+      "failureMode": "Mesh Filter Bypass / Coffee Grounds Sludge",
+      "failureModeId": "filter-bypass",
+      "countsPerProduct": {
+        "B00008XEWG": {
+          "count": 7,
+          "sampleSufficient": true
+        },
+        "B000KEM4TQ": {
+          "count": 13,
+          "sampleSufficient": true
+        },
+        "B00004Y6A2": {
+          "count": 0,
+          "sampleSufficient": true
+        },
+        "B01J4327D8": {
+          "count": 0,
+          "sampleSufficient": false
+        },
+        "B07N3ZJDFR": {
+          "count": 0,
+          "sampleSufficient": false
+        }
+      },
+      "totalObservedMentions": 20,
+      "prevalenceInPrimaryDataset": "2/3 competitors with sufficient data (67%)"
+    },
+    {
+      "failureMode": "Stainless Steel Corrosion / Metallic Degradation",
+      "failureModeId": "corrosion",
+      "countsPerProduct": {
+        "B00008XEWG": {
+          "count": 6,
+          "sampleSufficient": true
+        },
+        "B000KEM4TQ": {
+          "count": 9,
+          "sampleSufficient": true
+        },
+        "B00004Y6A2": {
+          "count": 0,
+          "sampleSufficient": true
+        },
+        "B01J4327D8": {
+          "count": 0,
+          "sampleSufficient": false
+        },
+        "B07N3ZJDFR": {
+          "count": 0,
+          "sampleSufficient": false
+        }
+      },
+      "totalObservedMentions": 15,
+      "prevalenceInPrimaryDataset": "2/3 competitors with sufficient data (67%)"
+    },
+    {
+      "failureMode": "Rapid Heat Loss / Thermal Retention Deficit",
+      "failureModeId": "heat-loss",
+      "countsPerProduct": {
+        "B00008XEWG": {
+          "count": 5,
+          "sampleSufficient": true
+        },
+        "B000KEM4TQ": {
+          "count": 1,
+          "sampleSufficient": true
+        },
+        "B00004Y6A2": {
+          "count": 0,
+          "sampleSufficient": true
+        },
+        "B01J4327D8": {
+          "count": 0,
+          "sampleSufficient": false
+        },
+        "B07N3ZJDFR": {
+          "count": 0,
+          "sampleSufficient": false
+        }
+      },
+      "totalObservedMentions": 6,
+      "prevalenceInPrimaryDataset": "2/3 competitors with sufficient data (67%)"
+    }
+  ],
+  "strictSeverityScores": [
+    {
+      "failureMode": "Handle / Frame Instability & Detachment",
+      "totalObservedMentions": 37,
+      "isSafetyHazard": true,
+      "severityScore": 90,
+      "severityTier": "CRITICAL (P0)",
+      "evidenceBasis": "Supported by 37 verified failure citations across Bodum 34oz Chambord French Press Coffee Maker, High-Heat Borosilicate Glass, Polished Stainless Steel – Made in Portugal (B00008XEWG): 15, Bodum 34oz Brazil French Press Coffee Maker, High-Heat Borosilicate Glass, Black - Made in Portugal (B000KEM4TQ): 22"
+    },
+    {
+      "failureMode": "Plunger Shaft Bending / Threading Strip",
+      "totalObservedMentions": 30,
+      "isSafetyHazard": false,
+      "severityScore": 70,
+      "severityTier": "CRITICAL (P0)",
+      "evidenceBasis": "Supported by 30 verified failure citations across Bodum 34oz Chambord French Press Coffee Maker, High-Heat Borosilicate Glass, Polished Stainless Steel – Made in Portugal (B00008XEWG): 13, Bodum 34oz Brazil French Press Coffee Maker, High-Heat Borosilicate Glass, Black - Made in Portugal (B000KEM4TQ): 17"
+    },
+    {
+      "failureMode": "Thermal Shock / Glass Shattering",
+      "totalObservedMentions": 22,
+      "isSafetyHazard": true,
+      "severityScore": 90,
+      "severityTier": "CRITICAL (P0)",
+      "evidenceBasis": "Supported by 22 verified failure citations across Bodum 34oz Chambord French Press Coffee Maker, High-Heat Borosilicate Glass, Polished Stainless Steel – Made in Portugal (B00008XEWG): 8, Bodum 34oz Brazil French Press Coffee Maker, High-Heat Borosilicate Glass, Black - Made in Portugal (B000KEM4TQ): 14"
+    },
+    {
+      "failureMode": "Mesh Filter Bypass / Coffee Grounds Sludge",
+      "totalObservedMentions": 20,
+      "isSafetyHazard": false,
+      "severityScore": 70,
+      "severityTier": "CRITICAL (P0)",
+      "evidenceBasis": "Supported by 20 verified failure citations across Bodum 34oz Chambord French Press Coffee Maker, High-Heat Borosilicate Glass, Polished Stainless Steel – Made in Portugal (B00008XEWG): 7, Bodum 34oz Brazil French Press Coffee Maker, High-Heat Borosilicate Glass, Black - Made in Portugal (B000KEM4TQ): 13"
+    },
+    {
+      "failureMode": "Stainless Steel Corrosion / Metallic Degradation",
+      "totalObservedMentions": 15,
+      "isSafetyHazard": false,
+      "severityScore": 70,
+      "severityTier": "CRITICAL (P0)",
+      "evidenceBasis": "Supported by 15 verified failure citations across Bodum 34oz Chambord French Press Coffee Maker, High-Heat Borosilicate Glass, Polished Stainless Steel – Made in Portugal (B00008XEWG): 6, Bodum 34oz Brazil French Press Coffee Maker, High-Heat Borosilicate Glass, Black - Made in Portugal (B000KEM4TQ): 9"
+    },
+    {
+      "failureMode": "Rapid Heat Loss / Thermal Retention Deficit",
+      "totalObservedMentions": 6,
+      "isSafetyHazard": false,
+      "severityScore": 50,
+      "severityTier": "HIGH (P1)",
+      "evidenceBasis": "Supported by 6 verified failure citations across Bodum 34oz Chambord French Press Coffee Maker, High-Heat Borosilicate Glass, Polished Stainless Steel – Made in Portugal (B00008XEWG): 5, Bodum 34oz Brazil French Press Coffee Maker, High-Heat Borosilicate Glass, Black - Made in Portugal (B000KEM4TQ): 1"
+    }
+  ],
+  "productOpportunityScore": {
+    "score": 77,
+    "maxScore": 100,
+    "formula": "Baseline (100) - Failure Penalty (53) + Solvability Bonus (30) = 77",
+    "interpretation": "Moderate opportunity — some failure modes are addressable but market risks exist."
+  },
+  "strictSourcingSpecs": [
+    {
+      "priority": "P0 (CRITICAL)",
+      "failureMode": "Handle / Frame Instability & Detachment",
+      "evidenceObserved": "37 mentions across 2 competitors",
+      "engineeringRequirement": "Address \"Handle / Frame Instability & Detachment\" through design or material improvement. Severity: 90/100.",
+      "qaRequirement": "Pre-shipment testing validation for handle / frame instability & detachment resistance.",
+      "listingImplication": "Competitive differentiation opportunity: address the handle / frame instability & detachment that affects Bodum 34oz Chambord French Press Coffee Maker, High-Heat Borosilicate Glass, Polished Stainless Steel – Made in Portugal (B00008XEWG): 15, Bodum 34oz Brazil French Press Coffee Maker, High-Heat Borosilicate Glass, Black - Made in Portugal (B000KEM4TQ): 22."
+    },
+    {
+      "priority": "P0 (CRITICAL)",
+      "failureMode": "Plunger Shaft Bending / Threading Strip",
+      "evidenceObserved": "30 mentions across 2 competitors",
+      "engineeringRequirement": "Address \"Plunger Shaft Bending / Threading Strip\" through design or material improvement. Severity: 70/100.",
+      "qaRequirement": "Pre-shipment testing validation for plunger shaft bending / threading strip resistance.",
+      "listingImplication": "Competitive differentiation opportunity: address the plunger shaft bending / threading strip that affects Bodum 34oz Chambord French Press Coffee Maker, High-Heat Borosilicate Glass, Polished Stainless Steel – Made in Portugal (B00008XEWG): 13, Bodum 34oz Brazil French Press Coffee Maker, High-Heat Borosilicate Glass, Black - Made in Portugal (B000KEM4TQ): 17."
+    },
+    {
+      "priority": "P0 (CRITICAL)",
+      "failureMode": "Thermal Shock / Glass Shattering",
+      "evidenceObserved": "22 mentions across 2 competitors",
+      "engineeringRequirement": "Address \"Thermal Shock / Glass Shattering\" through design or material improvement. Severity: 90/100.",
+      "qaRequirement": "Pre-shipment testing validation for thermal shock / glass shattering resistance.",
+      "listingImplication": "Competitive differentiation opportunity: address the thermal shock / glass shattering that affects Bodum 34oz Chambord French Press Coffee Maker, High-Heat Borosilicate Glass, Polished Stainless Steel – Made in Portugal (B00008XEWG): 8, Bodum 34oz Brazil French Press Coffee Maker, High-Heat Borosilicate Glass, Black - Made in Portugal (B000KEM4TQ): 14."
+    },
+    {
+      "priority": "P0 (CRITICAL)",
+      "failureMode": "Mesh Filter Bypass / Coffee Grounds Sludge",
+      "evidenceObserved": "20 mentions across 2 competitors",
+      "engineeringRequirement": "Address \"Mesh Filter Bypass / Coffee Grounds Sludge\" through design or material improvement. Severity: 70/100.",
+      "qaRequirement": "Pre-shipment testing validation for mesh filter bypass / coffee grounds sludge resistance.",
+      "listingImplication": "Competitive differentiation opportunity: address the mesh filter bypass / coffee grounds sludge that affects Bodum 34oz Chambord French Press Coffee Maker, High-Heat Borosilicate Glass, Polished Stainless Steel – Made in Portugal (B00008XEWG): 7, Bodum 34oz Brazil French Press Coffee Maker, High-Heat Borosilicate Glass, Black - Made in Portugal (B000KEM4TQ): 13."
+    },
+    {
+      "priority": "P0 (CRITICAL)",
+      "failureMode": "Stainless Steel Corrosion / Metallic Degradation",
+      "evidenceObserved": "15 mentions across 2 competitors",
+      "engineeringRequirement": "Address \"Stainless Steel Corrosion / Metallic Degradation\" through design or material improvement. Severity: 70/100.",
+      "qaRequirement": "Pre-shipment testing validation for stainless steel corrosion / metallic degradation resistance.",
+      "listingImplication": "Competitive differentiation opportunity: address the stainless steel corrosion / metallic degradation that affects Bodum 34oz Chambord French Press Coffee Maker, High-Heat Borosilicate Glass, Polished Stainless Steel – Made in Portugal (B00008XEWG): 6, Bodum 34oz Brazil French Press Coffee Maker, High-Heat Borosilicate Glass, Black - Made in Portugal (B000KEM4TQ): 9."
+    },
+    {
+      "priority": "P1 (HIGH)",
+      "failureMode": "Rapid Heat Loss / Thermal Retention Deficit",
+      "evidenceObserved": "6 mentions across 2 competitors",
+      "engineeringRequirement": "Address \"Rapid Heat Loss / Thermal Retention Deficit\" through design or material improvement. Severity: 50/100.",
+      "qaRequirement": "Pre-shipment testing validation for rapid heat loss / thermal retention deficit resistance.",
+      "listingImplication": "Competitive differentiation opportunity: address the rapid heat loss / thermal retention deficit that affects Bodum 34oz Chambord French Press Coffee Maker, High-Heat Borosilicate Glass, Polished Stainless Steel – Made in Portugal (B00008XEWG): 5, Bodum 34oz Brazil French Press Coffee Maker, High-Heat Borosilicate Glass, Black - Made in Portugal (B000KEM4TQ): 1."
+    }
+  ],
+  "finalDecision": {
+    "decision": "🟡 INVESTIGATE / CONDITIONAL GO",
+    "evidenceConfidence": "HIGH",
+    "confidenceRating": "HIGH (3/5 with sufficient review depth)",
+    "confidenceExplanation": "Opportunity score 77/100 indicates strong product opportunity. Evidence confidence: HIGH.",
+    "evidenceRationale": "Analysis of 117 reviews across 5 competitors in the \"French Press Coffee Makers (34oz / 1-Liter)\" category. 6 critical/high failure modes identified.",
+    "nextStepAction": "Proceed with supplier sample procurement while addressing identified failure modes."
+  },
+  "monidReceipt": {
+    "totalMonidCostUSD": "$0.01800",
+    "totalMonidCostNumber": 0.018,
+    "successfulCalls": 10,
+    "failedCalls": 0,
+    "totalCallsExecuted": 10,
+    "callBreakdown": [
+      {
+        "callIndex": 1,
+        "endpoint": "apify/axesso_data/amazon-reviews-scraper",
+        "asin": "B00008XEWG",
+        "status": "200 OK",
+        "latencyMs": 26624,
+        "costUSD": 0.00135,
+        "callId": "mc_1788768193472_6m8sr2",
+        "startTime": "2026-09-07T08:03:13.473Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 2,
+        "endpoint": "apify/delicious_zebu/amazon-product-details-scraper",
+        "asin": "B00008XEWG",
+        "status": "200 OK",
+        "latencyMs": 12424,
+        "costUSD": 0.00225,
+        "callId": "mc_1788768220100_o2ro75",
+        "startTime": "2026-09-07T08:03:40.100Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 3,
+        "endpoint": "apify/axesso_data/amazon-reviews-scraper",
+        "asin": "B000KEM4TQ",
+        "status": "200 OK",
+        "latencyMs": 26721,
+        "costUSD": 0.00135,
+        "callId": "mc_1788768232529_tv17qi",
+        "startTime": "2026-09-07T08:03:52.529Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 4,
+        "endpoint": "apify/delicious_zebu/amazon-product-details-scraper",
+        "asin": "B000KEM4TQ",
+        "status": "200 OK",
+        "latencyMs": 12123,
+        "costUSD": 0.00225,
+        "callId": "mc_1788768259253_y2ju3b",
+        "startTime": "2026-09-07T08:04:19.254Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 5,
+        "endpoint": "apify/axesso_data/amazon-reviews-scraper",
+        "asin": "B00004Y6A2",
+        "status": "200 OK",
+        "latencyMs": 12771,
+        "costUSD": 0.00135,
+        "callId": "mc_1788768271386_v3het3",
+        "startTime": "2026-09-07T08:04:31.387Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 6,
+        "endpoint": "apify/delicious_zebu/amazon-product-details-scraper",
+        "asin": "B00004Y6A2",
+        "status": "200 OK",
+        "latencyMs": 8392,
+        "costUSD": 0.00225,
+        "callId": "mc_1788768284161_7gxdta",
+        "startTime": "2026-09-07T08:04:44.162Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 7,
+        "endpoint": "apify/axesso_data/amazon-reviews-scraper",
+        "asin": "B01J4327D8",
+        "status": "200 OK",
+        "latencyMs": 9712,
+        "costUSD": 0.00135,
+        "callId": "mc_1788768292557_lbo4ad",
+        "startTime": "2026-09-07T08:04:52.558Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 8,
+        "endpoint": "apify/delicious_zebu/amazon-product-details-scraper",
+        "asin": "B01J4327D8",
+        "status": "200 OK",
+        "latencyMs": 18568,
+        "costUSD": 0.00225,
+        "callId": "mc_1788768302273_moxgcu",
+        "startTime": "2026-09-07T08:05:02.274Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 9,
+        "endpoint": "apify/axesso_data/amazon-reviews-scraper",
+        "asin": "B07N3ZJDFR",
+        "status": "200 OK",
+        "latencyMs": 11949,
+        "costUSD": 0.00135,
+        "callId": "mc_1788768320844_vgik8t",
+        "startTime": "2026-09-07T08:05:20.845Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 10,
+        "endpoint": "apify/delicious_zebu/amazon-product-details-scraper",
+        "asin": "B07N3ZJDFR",
+        "status": "200 OK",
+        "latencyMs": 18166,
+        "costUSD": 0.00225,
+        "callId": "mc_1788768332797_2850ji",
+        "startTime": "2026-09-07T08:05:32.797Z",
+        "attempt": 1,
+        "error": null
+      }
+    ]
+  },
+  "executionMetadata": {
+    "runId": "run_1788768193472",
+    "executedAt": "2026-09-07T08:03:13.472Z",
+    "completedAt": "2026-09-07T08:05:50.966Z",
+    "isLiveExecution": true,
+    "source": "LIVE_MONID_EXECUTION",
+    "totalActualCost": 0.018,
+    "competitorsAnalyzed": 5,
+    "competitorsFailed": 0,
+    "totalReviewsRetrieved": 117,
+    "engineVersion": "ratina-investigation-engine-v2.0"
+  }
+}

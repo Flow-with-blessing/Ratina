@@ -1,0 +1,840 @@
+{
+  "timestamp": "2026-09-07T07:21:32.275Z",
+  "mode": "DYNAMIC_DISCOVERY_ANALYSIS",
+  "category": "Portable Blenders",
+  "discovery": {
+    "searchQuery": "portable blender",
+    "totalCandidatesFound": 21,
+    "candidates": [
+      {
+        "asin": "B0GTTW8S9C",
+        "title": "Lilogi 500ML Portable Smoothie Maker Cup with 12-Blade USB-C Juicer (Purple)",
+        "price": 21.79,
+        "rating": null,
+        "reviewCount": 152,
+        "isPrime": false,
+        "position": 1,
+        "sponsored": true,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0FGK23M71",
+        "title": "Portable blender Cordless USB-C rechargeable 15OZ juicer cup Purple | Personal compact travel Fresh juice Self-cleaning Leakproof lid Smart display 12 blades with strong blending Shakes Smoothies",
+        "price": 22.99,
+        "rating": null,
+        "reviewCount": 269,
+        "isPrime": false,
+        "position": 2,
+        "sponsored": true,
+        "imageUrl": null
+      },
+      {
+        "asin": "B08QZWDLP4",
+        "title": "Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301 | 900-peak-watt push-to-blend motor for smoothies & sauces. (3) 20-oz cups, 2 spout lids & storage lid. Dishwasher safe.",
+        "price": 69.97,
+        "rating": null,
+        "reviewCount": 5893,
+        "isPrime": false,
+        "position": 3,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0DB8ZN253",
+        "title": "Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV | Twist & Go removable 22-oz vessel. Auto-iQ Crush & Smoothie programs, cordless. Dishwasher safe, leakproof lid.",
+        "price": 99.99,
+        "rating": null,
+        "reviewCount": 3000,
+        "isPrime": false,
+        "position": 4,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0HDYRPKLW",
+        "title": "Portable Blender, Personal Blender, Type-C Rechargeable, Gym/Travel/Camping | Personal Size Blenders for Shakes and Smoothies with 27oz Cup, Lid and Shoulder Strap, BPA-free, Kitchen, Light Purple",
+        "price": 31.66,
+        "rating": null,
+        "reviewCount": 12,
+        "isPrime": false,
+        "position": 5,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B012T634SM",
+        "title": "magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101",
+        "price": 29.98,
+        "rating": null,
+        "reviewCount": 120864,
+        "isPrime": false,
+        "position": 6,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0CXDLCVJV",
+        "title": "HOMEXUP Portable Personal Blender 17oz, 175W Smoothie Maker, Pink | Compact 500ml blender for smoothies, shakes and fresh drinks, ideal for home, office, gym and daily use",
+        "price": 20.89,
+        "rating": null,
+        "reviewCount": 1265,
+        "isPrime": false,
+        "position": 7,
+        "sponsored": true,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0H8X91H2P",
+        "title": "Personal Size Portable Blender Make Smoothies - Mini Blender 12oz Juice Cup | Powerful Blending with 6 Stainless Steel Blades, BAP-Free, Lightweight, Easy Clean,Suit in Travel/Office/Gym/Picnic/ Sports",
+        "price": 14.99,
+        "rating": null,
+        "reviewCount": 10,
+        "isPrime": false,
+        "position": 8,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0H1Z378KN",
+        "title": "Personal Blender, Compact Cordless, 20 oz (600ml) | BPA-Free, USB-C Rechargeable, Makes Juices, Milkshakes, Smoothies, Ideal for Travel, Gym, Office",
+        "price": 24.99,
+        "rating": null,
+        "reviewCount": 0,
+        "isPrime": false,
+        "position": 10,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0C2FF74J6",
+        "title": "Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue",
+        "price": 68.59,
+        "rating": null,
+        "reviewCount": 13879,
+        "isPrime": false,
+        "position": 11,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0BNZ9LGVM",
+        "title": "Portable Blender, Shakes and Smoothies Waterproof 20 oz BPA Free Blender Cup and a Travel Lid. (Black, 20 oz)",
+        "price": 31.99,
+        "rating": null,
+        "reviewCount": 2336,
+        "isPrime": false,
+        "position": 12,
+        "sponsored": true,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0GX2SD3K6",
+        "title": "Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2 | Twist & Go removable 22-oz vessel. Auto-iQ Crush & Smoothie programs, cordless. Dishwasher safe, leakproof lid.",
+        "price": 74.98,
+        "rating": null,
+        "reviewCount": 3000,
+        "isPrime": false,
+        "position": 13,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0HDRVLLC6",
+        "title": "Portable Blender for Smoothie, 18oz Personal, Cordless Rechargeable | Frozen blending, Jam-free, BPA-free, Auto-Reverse, Fast Charging, Not Dishwasher Safe, Car Cup Holder Friendly",
+        "price": 29.99,
+        "rating": null,
+        "reviewCount": 16,
+        "isPrime": false,
+        "position": 14,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0C2FF4JD1",
+        "title": "Ninja Blast Portable Blender, Cordless, 18oz Vessel, Black, BC151BK | USB-C rechargeable, cordless blending anywhere. BlastBlade crushes ice & frozen fruit. Leakproof sip lid, dishwasher safe.",
+        "price": 69.99,
+        "rating": null,
+        "reviewCount": 13879,
+        "isPrime": false,
+        "position": 15,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0GX29WZFB",
+        "title": "Ninja Blast Max Portable Blender, Twist & Go, 22oz, Pink, BC251PK1 | Twist & Go removable 22-oz vessel. Auto-iQ Crush & Smoothie programs, cordless. Dishwasher safe, leakproof lid.",
+        "price": 74.98,
+        "rating": null,
+        "reviewCount": 3000,
+        "isPrime": false,
+        "position": 16,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0GXYQQSP1",
+        "title": "GDOR Portable Blender, Smoothie Blender Cordless Twist&Go 3 Programs | Personal Blender for Smoothies Juicer Shakes Ice Crush, 2*23oz Blender Bottle Travel Rechargeable, Dishwasher Safe, BPA-Free",
+        "price": 46.99,
+        "rating": null,
+        "reviewCount": 22,
+        "isPrime": false,
+        "position": 17,
+        "sponsored": true,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0HCN28G72",
+        "title": "Portable Blender, 360 Watt Personal Blender Shakes and Smoothies, Black | USB Rechargeable, BPA Free 24 Oz Juicer Cup with 6 Blades and Lid, 6000mAh Self leaning Portable Juicer for Kitchen",
+        "price": 20,
+        "rating": null,
+        "reviewCount": 12,
+        "isPrime": false,
+        "position": 18,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0CN3S2SW2",
+        "title": "Hamilton Beach Portable Blender for Smoothies With 14 oz. Travel Jar | BPA Free Jar & Lid | Durable Stainless Steel Blades | 300 Watts Peak Power | Personal Smoothie Blender | Blue | 51172G",
+        "price": 24.99,
+        "rating": null,
+        "reviewCount": 1116,
+        "isPrime": false,
+        "position": 19,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0FWY6LS2W",
+        "title": "Ninja BC151PR Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Passion Fruit",
+        "price": 57.99,
+        "rating": null,
+        "reviewCount": 13879,
+        "isPrime": false,
+        "position": 20,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B01FHOWYA2",
+        "title": "Ninja Fit Compact Personal Blender, 700W, (2) 16oz Cups, QB3001SS | 700-watt base blends smoothies, shakes & frozen drinks. (2) 16-oz to-go cups w/ spout lids. Dishwasher safe.",
+        "price": 69.99,
+        "rating": null,
+        "reviewCount": 42045,
+        "isPrime": false,
+        "position": 21,
+        "sponsored": false,
+        "imageUrl": null
+      },
+      {
+        "asin": "B0C3QTV9ZL",
+        "title": "Asa Vea Portable Blender, Mini Blender for Smoothies and Shakes with 4 Blades, 11 Oz Personal Size Blender with Travel Lid and USB Rechargeable for Kitchen, Office, Gym (Pink)",
+        "price": 29.8,
+        "rating": null,
+        "reviewCount": 185,
+        "isPrime": false,
+        "position": 22,
+        "sponsored": true,
+        "imageUrl": null
+      }
+    ],
+    "selectionCriteria": [
+      "Ranked by composite score combining: review volume (40pts max), rating availability (15pts), price availability (10pts), organic vs sponsored (10pts), search position relevance (20pts max)",
+      "21 total candidates evaluated",
+      "Top 5 selected"
+    ],
+    "selectionReasons": [
+      {
+        "rank": 1,
+        "asin": "B08QZWDLP4",
+        "title": "Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301 | 900-peak-watt push-to-blend motor for smoothies & sauces. (3) 20-oz cups, 2 spout lids & storage lid. Dishwasher safe.",
+        "score": 77,
+        "reason": "Score: 77 | Reviews: 5893 | Rating: N/A | Price: 69.97 | Organic: true | Position: 3"
+      },
+      {
+        "rank": 2,
+        "asin": "B0DB8ZN253",
+        "title": "Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV | Twist & Go removable 22-oz vessel. Auto-iQ Crush & Smoothie programs, cordless. Dishwasher safe, leakproof lid.",
+        "score": 76,
+        "reason": "Score: 76 | Reviews: 3000 | Rating: N/A | Price: 99.99 | Organic: true | Position: 4"
+      },
+      {
+        "rank": 3,
+        "asin": "B012T634SM",
+        "title": "magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101",
+        "score": 74,
+        "reason": "Score: 74 | Reviews: 120864 | Rating: N/A | Price: 29.98 | Organic: true | Position: 6"
+      },
+      {
+        "rank": 4,
+        "asin": "B0C2FF74J6",
+        "title": "Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue",
+        "score": 69,
+        "reason": "Score: 69 | Reviews: 13879 | Rating: N/A | Price: 68.59 | Organic: true | Position: 11"
+      },
+      {
+        "rank": 5,
+        "asin": "B0GX2SD3K6",
+        "title": "Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2 | Twist & Go removable 22-oz vessel. Auto-iQ Crush & Smoothie programs, cordless. Dishwasher safe, leakproof lid.",
+        "score": 67,
+        "reason": "Score: 67 | Reviews: 3000 | Rating: N/A | Price: 74.98 | Organic: true | Position: 13"
+      }
+    ],
+    "discoveryCallMetadata": {
+      "callId": "mc_1788765692276_q7aqgf",
+      "provider": "apify",
+      "endpoint": "apify/axesso_data/amazon-search-scraper",
+      "startTime": "2026-09-07T07:21:32.277Z",
+      "endTime": "2026-09-07T07:21:46.168Z",
+      "latencyMs": 13891,
+      "costUSD": 0.00015,
+      "attempt": 1,
+      "totalAttempts": 1,
+      "httpStatus": "200 OK",
+      "context": "Search: \"portable blender\""
+    }
+  },
+  "dataLimitations": {
+    "highConfidenceDataset": [
+      "B08QZWDLP4 (50 reviews)",
+      "B0DB8ZN253 (50 reviews)",
+      "B012T634SM (50 reviews)",
+      "B0C2FF74J6 (50 reviews)",
+      "B0GX2SD3K6 (50 reviews)"
+    ]
+  },
+  "strictCompetitorSummary": [
+    {
+      "asin": "B08QZWDLP4",
+      "name": "Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301",
+      "title": "Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301",
+      "livePrice": "$69.97",
+      "liveRating": "4.6",
+      "reviewsRetrieved": 50,
+      "criticalReviewsAnalyzed": 14,
+      "dataQualityStatus": "HIGH CONFIDENCE (50 reviews)",
+      "failureCounts": {
+        "Blade Dulling / Cutting Failure": 9,
+        "Motor Burn-Out / Overheating": 4,
+        "Battery / Charging Failure": 7,
+        "Lid Seal Leaking / Spill Vulnerability": 6,
+        "Excessive Noise / Vibration": 5,
+        "Insufficient Capacity / Misleading Size": 8
+      },
+      "warnings": []
+    },
+    {
+      "asin": "B0DB8ZN253",
+      "name": "Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV",
+      "title": "Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV",
+      "livePrice": "$99.99",
+      "liveRating": "4.2",
+      "reviewsRetrieved": 50,
+      "criticalReviewsAnalyzed": 19,
+      "dataQualityStatus": "HIGH CONFIDENCE (50 reviews)",
+      "failureCounts": {
+        "Blade Dulling / Cutting Failure": 3,
+        "Motor Burn-Out / Overheating": 5,
+        "Battery / Charging Failure": 16,
+        "Lid Seal Leaking / Spill Vulnerability": 5,
+        "Excessive Noise / Vibration": 3,
+        "Insufficient Capacity / Misleading Size": 10
+      },
+      "warnings": []
+    },
+    {
+      "asin": "B012T634SM",
+      "name": "magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101",
+      "title": "magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101",
+      "livePrice": "$29.98",
+      "liveRating": "4.4",
+      "reviewsRetrieved": 50,
+      "criticalReviewsAnalyzed": 29,
+      "dataQualityStatus": "HIGH CONFIDENCE (50 reviews)",
+      "failureCounts": {
+        "Blade Dulling / Cutting Failure": 6,
+        "Motor Burn-Out / Overheating": 15,
+        "Battery / Charging Failure": 1,
+        "Lid Seal Leaking / Spill Vulnerability": 5,
+        "Excessive Noise / Vibration": 3,
+        "Insufficient Capacity / Misleading Size": 12
+      },
+      "warnings": []
+    },
+    {
+      "asin": "B0C2FF74J6",
+      "name": "Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue",
+      "title": "Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue",
+      "livePrice": "$69.99",
+      "liveRating": "4.2",
+      "reviewsRetrieved": 50,
+      "criticalReviewsAnalyzed": 25,
+      "dataQualityStatus": "HIGH CONFIDENCE (50 reviews)",
+      "failureCounts": {
+        "Blade Dulling / Cutting Failure": 3,
+        "Motor Burn-Out / Overheating": 4,
+        "Battery / Charging Failure": 23,
+        "Lid Seal Leaking / Spill Vulnerability": 3,
+        "Excessive Noise / Vibration": 1,
+        "Insufficient Capacity / Misleading Size": 2
+      },
+      "warnings": []
+    },
+    {
+      "asin": "B0GX2SD3K6",
+      "name": "Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2",
+      "title": "Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2",
+      "livePrice": "$74.98",
+      "liveRating": "4.2",
+      "reviewsRetrieved": 50,
+      "criticalReviewsAnalyzed": 19,
+      "dataQualityStatus": "HIGH CONFIDENCE (50 reviews)",
+      "failureCounts": {
+        "Blade Dulling / Cutting Failure": 3,
+        "Motor Burn-Out / Overheating": 5,
+        "Battery / Charging Failure": 16,
+        "Lid Seal Leaking / Spill Vulnerability": 5,
+        "Excessive Noise / Vibration": 3,
+        "Insufficient Capacity / Misleading Size": 10
+      },
+      "warnings": []
+    }
+  ],
+  "strictMatrix": [
+    {
+      "failureMode": "Battery / Charging Failure",
+      "failureModeId": "battery-charge",
+      "countsPerProduct": {
+        "B08QZWDLP4": {
+          "count": 7,
+          "sampleSufficient": true
+        },
+        "B0DB8ZN253": {
+          "count": 16,
+          "sampleSufficient": true
+        },
+        "B012T634SM": {
+          "count": 1,
+          "sampleSufficient": true
+        },
+        "B0C2FF74J6": {
+          "count": 23,
+          "sampleSufficient": true
+        },
+        "B0GX2SD3K6": {
+          "count": 16,
+          "sampleSufficient": true
+        }
+      },
+      "totalObservedMentions": 63,
+      "prevalenceInPrimaryDataset": "5/5 competitors with sufficient data (100%)"
+    },
+    {
+      "failureMode": "Insufficient Capacity / Misleading Size",
+      "failureModeId": "capacity-size",
+      "countsPerProduct": {
+        "B08QZWDLP4": {
+          "count": 8,
+          "sampleSufficient": true
+        },
+        "B0DB8ZN253": {
+          "count": 10,
+          "sampleSufficient": true
+        },
+        "B012T634SM": {
+          "count": 12,
+          "sampleSufficient": true
+        },
+        "B0C2FF74J6": {
+          "count": 2,
+          "sampleSufficient": true
+        },
+        "B0GX2SD3K6": {
+          "count": 10,
+          "sampleSufficient": true
+        }
+      },
+      "totalObservedMentions": 42,
+      "prevalenceInPrimaryDataset": "5/5 competitors with sufficient data (100%)"
+    },
+    {
+      "failureMode": "Motor Burn-Out / Overheating",
+      "failureModeId": "motor-burnout",
+      "countsPerProduct": {
+        "B08QZWDLP4": {
+          "count": 4,
+          "sampleSufficient": true
+        },
+        "B0DB8ZN253": {
+          "count": 5,
+          "sampleSufficient": true
+        },
+        "B012T634SM": {
+          "count": 15,
+          "sampleSufficient": true
+        },
+        "B0C2FF74J6": {
+          "count": 4,
+          "sampleSufficient": true
+        },
+        "B0GX2SD3K6": {
+          "count": 5,
+          "sampleSufficient": true
+        }
+      },
+      "totalObservedMentions": 33,
+      "prevalenceInPrimaryDataset": "5/5 competitors with sufficient data (100%)"
+    },
+    {
+      "failureMode": "Blade Dulling / Cutting Failure",
+      "failureModeId": "blade-dull",
+      "countsPerProduct": {
+        "B08QZWDLP4": {
+          "count": 9,
+          "sampleSufficient": true
+        },
+        "B0DB8ZN253": {
+          "count": 3,
+          "sampleSufficient": true
+        },
+        "B012T634SM": {
+          "count": 6,
+          "sampleSufficient": true
+        },
+        "B0C2FF74J6": {
+          "count": 3,
+          "sampleSufficient": true
+        },
+        "B0GX2SD3K6": {
+          "count": 3,
+          "sampleSufficient": true
+        }
+      },
+      "totalObservedMentions": 24,
+      "prevalenceInPrimaryDataset": "5/5 competitors with sufficient data (100%)"
+    },
+    {
+      "failureMode": "Lid Seal Leaking / Spill Vulnerability",
+      "failureModeId": "leak-seal",
+      "countsPerProduct": {
+        "B08QZWDLP4": {
+          "count": 6,
+          "sampleSufficient": true
+        },
+        "B0DB8ZN253": {
+          "count": 5,
+          "sampleSufficient": true
+        },
+        "B012T634SM": {
+          "count": 5,
+          "sampleSufficient": true
+        },
+        "B0C2FF74J6": {
+          "count": 3,
+          "sampleSufficient": true
+        },
+        "B0GX2SD3K6": {
+          "count": 5,
+          "sampleSufficient": true
+        }
+      },
+      "totalObservedMentions": 24,
+      "prevalenceInPrimaryDataset": "5/5 competitors with sufficient data (100%)"
+    },
+    {
+      "failureMode": "Excessive Noise / Vibration",
+      "failureModeId": "noise-vibration",
+      "countsPerProduct": {
+        "B08QZWDLP4": {
+          "count": 5,
+          "sampleSufficient": true
+        },
+        "B0DB8ZN253": {
+          "count": 3,
+          "sampleSufficient": true
+        },
+        "B012T634SM": {
+          "count": 3,
+          "sampleSufficient": true
+        },
+        "B0C2FF74J6": {
+          "count": 1,
+          "sampleSufficient": true
+        },
+        "B0GX2SD3K6": {
+          "count": 3,
+          "sampleSufficient": true
+        }
+      },
+      "totalObservedMentions": 15,
+      "prevalenceInPrimaryDataset": "5/5 competitors with sufficient data (100%)"
+    }
+  ],
+  "strictSeverityScores": [
+    {
+      "failureMode": "Battery / Charging Failure",
+      "totalObservedMentions": 63,
+      "isSafetyHazard": false,
+      "severityScore": 80,
+      "severityTier": "CRITICAL (P0)",
+      "evidenceBasis": "Supported by 63 verified failure citations across Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301 (B08QZWDLP4): 7, Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV (B0DB8ZN253): 16, magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101 (B012T634SM): 1, Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue (B0C2FF74J6): 23, Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2 (B0GX2SD3K6): 16"
+    },
+    {
+      "failureMode": "Insufficient Capacity / Misleading Size",
+      "totalObservedMentions": 42,
+      "isSafetyHazard": false,
+      "severityScore": 80,
+      "severityTier": "CRITICAL (P0)",
+      "evidenceBasis": "Supported by 42 verified failure citations across Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301 (B08QZWDLP4): 8, Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV (B0DB8ZN253): 10, magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101 (B012T634SM): 12, Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue (B0C2FF74J6): 2, Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2 (B0GX2SD3K6): 10"
+    },
+    {
+      "failureMode": "Motor Burn-Out / Overheating",
+      "totalObservedMentions": 33,
+      "isSafetyHazard": true,
+      "severityScore": 100,
+      "severityTier": "CRITICAL (P0)",
+      "evidenceBasis": "Supported by 33 verified failure citations across Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301 (B08QZWDLP4): 4, Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV (B0DB8ZN253): 5, magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101 (B012T634SM): 15, Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue (B0C2FF74J6): 4, Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2 (B0GX2SD3K6): 5"
+    },
+    {
+      "failureMode": "Blade Dulling / Cutting Failure",
+      "totalObservedMentions": 24,
+      "isSafetyHazard": false,
+      "severityScore": 80,
+      "severityTier": "CRITICAL (P0)",
+      "evidenceBasis": "Supported by 24 verified failure citations across Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301 (B08QZWDLP4): 9, Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV (B0DB8ZN253): 3, magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101 (B012T634SM): 6, Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue (B0C2FF74J6): 3, Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2 (B0GX2SD3K6): 3"
+    },
+    {
+      "failureMode": "Lid Seal Leaking / Spill Vulnerability",
+      "totalObservedMentions": 24,
+      "isSafetyHazard": false,
+      "severityScore": 80,
+      "severityTier": "CRITICAL (P0)",
+      "evidenceBasis": "Supported by 24 verified failure citations across Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301 (B08QZWDLP4): 6, Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV (B0DB8ZN253): 5, magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101 (B012T634SM): 5, Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue (B0C2FF74J6): 3, Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2 (B0GX2SD3K6): 5"
+    },
+    {
+      "failureMode": "Excessive Noise / Vibration",
+      "totalObservedMentions": 15,
+      "isSafetyHazard": false,
+      "severityScore": 80,
+      "severityTier": "CRITICAL (P0)",
+      "evidenceBasis": "Supported by 15 verified failure citations across Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301 (B08QZWDLP4): 5, Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV (B0DB8ZN253): 3, magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101 (B012T634SM): 3, Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue (B0C2FF74J6): 1, Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2 (B0GX2SD3K6): 3"
+    }
+  ],
+  "productOpportunityScore": {
+    "score": 70,
+    "maxScore": 100,
+    "formula": "Baseline (100) - Failure Penalty (60) + Solvability Bonus (30) = 70",
+    "interpretation": "Moderate opportunity — some failure modes are addressable but market risks exist."
+  },
+  "strictSourcingSpecs": [
+    {
+      "priority": "P0 (CRITICAL)",
+      "failureMode": "Battery / Charging Failure",
+      "evidenceObserved": "63 mentions across 5 competitors",
+      "engineeringRequirement": "Address \"Battery / Charging Failure\" through design or material improvement. Severity: 80/100.",
+      "qaRequirement": "Pre-shipment testing validation for battery / charging failure resistance.",
+      "listingImplication": "Competitive differentiation opportunity: address the battery / charging failure that affects Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301 (B08QZWDLP4): 7, Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV (B0DB8ZN253): 16, magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101 (B012T634SM): 1, Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue (B0C2FF74J6): 23, Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2 (B0GX2SD3K6): 16."
+    },
+    {
+      "priority": "P0 (CRITICAL)",
+      "failureMode": "Insufficient Capacity / Misleading Size",
+      "evidenceObserved": "42 mentions across 5 competitors",
+      "engineeringRequirement": "Address \"Insufficient Capacity / Misleading Size\" through design or material improvement. Severity: 80/100.",
+      "qaRequirement": "Pre-shipment testing validation for insufficient capacity / misleading size resistance.",
+      "listingImplication": "Competitive differentiation opportunity: address the insufficient capacity / misleading size that affects Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301 (B08QZWDLP4): 8, Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV (B0DB8ZN253): 10, magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101 (B012T634SM): 12, Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue (B0C2FF74J6): 2, Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2 (B0GX2SD3K6): 10."
+    },
+    {
+      "priority": "P0 (CRITICAL)",
+      "failureMode": "Motor Burn-Out / Overheating",
+      "evidenceObserved": "33 mentions across 5 competitors",
+      "engineeringRequirement": "Address \"Motor Burn-Out / Overheating\" through design or material improvement. Severity: 100/100.",
+      "qaRequirement": "Pre-shipment testing validation for motor burn-out / overheating resistance.",
+      "listingImplication": "Competitive differentiation opportunity: address the motor burn-out / overheating that affects Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301 (B08QZWDLP4): 4, Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV (B0DB8ZN253): 5, magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101 (B012T634SM): 15, Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue (B0C2FF74J6): 4, Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2 (B0GX2SD3K6): 5."
+    },
+    {
+      "priority": "P0 (CRITICAL)",
+      "failureMode": "Blade Dulling / Cutting Failure",
+      "evidenceObserved": "24 mentions across 5 competitors",
+      "engineeringRequirement": "Address \"Blade Dulling / Cutting Failure\" through design or material improvement. Severity: 80/100.",
+      "qaRequirement": "Pre-shipment testing validation for blade dulling / cutting failure resistance.",
+      "listingImplication": "Competitive differentiation opportunity: address the blade dulling / cutting failure that affects Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301 (B08QZWDLP4): 9, Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV (B0DB8ZN253): 3, magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101 (B012T634SM): 6, Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue (B0C2FF74J6): 3, Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2 (B0GX2SD3K6): 3."
+    },
+    {
+      "priority": "P0 (CRITICAL)",
+      "failureMode": "Lid Seal Leaking / Spill Vulnerability",
+      "evidenceObserved": "24 mentions across 5 competitors",
+      "engineeringRequirement": "Address \"Lid Seal Leaking / Spill Vulnerability\" through design or material improvement. Severity: 80/100.",
+      "qaRequirement": "Pre-shipment testing validation for lid seal leaking / spill vulnerability resistance.",
+      "listingImplication": "Competitive differentiation opportunity: address the lid seal leaking / spill vulnerability that affects Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301 (B08QZWDLP4): 6, Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV (B0DB8ZN253): 5, magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101 (B012T634SM): 5, Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue (B0C2FF74J6): 3, Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2 (B0GX2SD3K6): 5."
+    },
+    {
+      "priority": "P0 (CRITICAL)",
+      "failureMode": "Excessive Noise / Vibration",
+      "evidenceObserved": "15 mentions across 5 competitors",
+      "engineeringRequirement": "Address \"Excessive Noise / Vibration\" through design or material improvement. Severity: 80/100.",
+      "qaRequirement": "Pre-shipment testing validation for excessive noise / vibration resistance.",
+      "listingImplication": "Competitive differentiation opportunity: address the excessive noise / vibration that affects Ninja Nutri-Plus Personal Blender, 900PW, (3) 20oz Cups, Silver, BN301 (B08QZWDLP4): 5, Ninja Blast Max Portable Blender, Twist & Go, 22oz, Navy, BC251NV (B0DB8ZN253): 3, magic bullet Personal Blender for Shakes, Smoothies, Food Prep, and Frozen Blending, 22 Ounces, 250 Watt, Silver, MBR-1101 (B012T634SM): 3, Ninja BC151NV Blast Portable Blender, Cordless, 18oz. Vessel, Personal Blender-for Shakes & Smoothies, BPA Free, Leakproof-Lid & Sip Spout, USB-C Rechargeable, Dishwasher Safe Parts, Denim Blue (B0C2FF74J6): 1, Ninja Blast Max Portable Blender, 22oz, Blue Raspberry, BC251BL2 (B0GX2SD3K6): 3."
+    }
+  ],
+  "finalDecision": {
+    "decision": "🟡 INVESTIGATE / CONDITIONAL GO",
+    "evidenceConfidence": "HIGH",
+    "confidenceRating": "HIGH (5/5 with sufficient review depth)",
+    "confidenceExplanation": "Opportunity score 70/100 indicates strong product opportunity. Evidence confidence: HIGH.",
+    "evidenceRationale": "Analysis of 250 reviews across 5 competitors in the \"Portable Blenders\" category. 6 critical/high failure modes identified.",
+    "nextStepAction": "Proceed with supplier sample procurement while addressing identified failure modes."
+  },
+  "monidReceipt": {
+    "totalMonidCostUSD": "$0.01815",
+    "totalMonidCostNumber": 0.01815,
+    "successfulCalls": 11,
+    "failedCalls": 0,
+    "totalCallsExecuted": 11,
+    "callBreakdown": [
+      {
+        "callIndex": 1,
+        "endpoint": "apify/axesso_data/amazon-search-scraper",
+        "asin": "N/A",
+        "status": "200 OK",
+        "latencyMs": 13891,
+        "costUSD": 0.00015,
+        "callId": "mc_1788765692276_q7aqgf",
+        "startTime": "2026-09-07T07:21:32.277Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 2,
+        "endpoint": "apify/axesso_data/amazon-reviews-scraper",
+        "asin": "B08QZWDLP4",
+        "status": "200 OK",
+        "latencyMs": 26674,
+        "costUSD": 0.00135,
+        "callId": "mc_1788765706175_i52wk9",
+        "startTime": "2026-09-07T07:21:46.176Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 3,
+        "endpoint": "apify/delicious_zebu/amazon-product-details-scraper",
+        "asin": "B08QZWDLP4",
+        "status": "200 OK",
+        "latencyMs": 13127,
+        "costUSD": 0.00225,
+        "callId": "mc_1788765732858_2a1xfv",
+        "startTime": "2026-09-07T07:22:12.859Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 4,
+        "endpoint": "apify/axesso_data/amazon-reviews-scraper",
+        "asin": "B0DB8ZN253",
+        "status": "200 OK",
+        "latencyMs": 19899,
+        "costUSD": 0.00135,
+        "callId": "mc_1788765745991_sz3d8n",
+        "startTime": "2026-09-07T07:22:25.992Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 5,
+        "endpoint": "apify/delicious_zebu/amazon-product-details-scraper",
+        "asin": "B0DB8ZN253",
+        "status": "200 OK",
+        "latencyMs": 12869,
+        "costUSD": 0.00225,
+        "callId": "mc_1788765765895_x0sj3d",
+        "startTime": "2026-09-07T07:22:45.896Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 6,
+        "endpoint": "apify/axesso_data/amazon-reviews-scraper",
+        "asin": "B012T634SM",
+        "status": "200 OK",
+        "latencyMs": 27812,
+        "costUSD": 0.00135,
+        "callId": "mc_1788765778769_p3jcf8",
+        "startTime": "2026-09-07T07:22:58.770Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 7,
+        "endpoint": "apify/delicious_zebu/amazon-product-details-scraper",
+        "asin": "B012T634SM",
+        "status": "200 OK",
+        "latencyMs": 13195,
+        "costUSD": 0.00225,
+        "callId": "mc_1788765806585_2yfmd9",
+        "startTime": "2026-09-07T07:23:26.586Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 8,
+        "endpoint": "apify/axesso_data/amazon-reviews-scraper",
+        "asin": "B0C2FF74J6",
+        "status": "200 OK",
+        "latencyMs": 38634,
+        "costUSD": 0.00135,
+        "callId": "mc_1788765819786_876vdr",
+        "startTime": "2026-09-07T07:23:39.787Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 9,
+        "endpoint": "apify/delicious_zebu/amazon-product-details-scraper",
+        "asin": "B0C2FF74J6",
+        "status": "200 OK",
+        "latencyMs": 12572,
+        "costUSD": 0.00225,
+        "callId": "mc_1788765858425_ti5ldl",
+        "startTime": "2026-09-07T07:24:18.426Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 10,
+        "endpoint": "apify/axesso_data/amazon-reviews-scraper",
+        "asin": "B0GX2SD3K6",
+        "status": "200 OK",
+        "latencyMs": 60646,
+        "costUSD": 0.00135,
+        "callId": "mc_1788765871002_zblj9j",
+        "startTime": "2026-09-07T07:24:31.003Z",
+        "attempt": 1,
+        "error": null
+      },
+      {
+        "callIndex": 11,
+        "endpoint": "apify/delicious_zebu/amazon-product-details-scraper",
+        "asin": "B0GX2SD3K6",
+        "status": "200 OK",
+        "latencyMs": 7997,
+        "costUSD": 0.00225,
+        "callId": "mc_1788765931652_1kergp",
+        "startTime": "2026-09-07T07:25:31.653Z",
+        "attempt": 1,
+        "error": null
+      }
+    ]
+  },
+  "executionMetadata": {
+    "runId": "run_1788765692275",
+    "executedAt": "2026-09-07T07:21:32.275Z",
+    "completedAt": "2026-09-07T07:25:39.657Z",
+    "isLiveExecution": true,
+    "source": "LIVE_MONID_EXECUTION",
+    "totalActualCost": 0.01815,
+    "competitorsAnalyzed": 5,
+    "competitorsFailed": 0,
+    "totalReviewsRetrieved": 250,
+    "engineVersion": "ratina-investigation-engine-v2.0"
+  }
+}
