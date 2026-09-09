@@ -187,7 +187,7 @@ export default function ResultsDashboard({ data, initialTab = 'decision' }) {
           <button className={`tab-btn ${activeTab === 'competitors' ? 'active' : ''}`} onClick={() => setActiveTab('competitors')}>
             <FileText size={15} /><span>5. Competitor Profiles</span>
           </button>
-          <button className={`tab-btn ${activeTab === 'receipt' ? 'active' : ''}`} onClick={() => setActiveTab('receipt')}>
+          <button className={`tab-btn tab-btn-receipt ${activeTab === 'receipt' ? 'active' : ''}`} onClick={() => setActiveTab('receipt')}>
             <Receipt size={15} /><span>6. Monid Cost Receipt ({totalCost})</span>
           </button>
           <button className={`tab-btn tab-btn-mcp ${activeTab === 'mcp' ? 'active' : ''}`} onClick={() => setActiveTab('mcp')} style={{ borderColor: 'rgba(99, 102, 241, 0.4)', background: activeTab === 'mcp' ? 'rgba(99, 102, 241, 0.15)' : undefined }}>

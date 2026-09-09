@@ -1822,10 +1822,10 @@ h1, h2, h3, h4, h5, h6 {
 .dashboard-tab-bar {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.5rem;
   border-top: 1px solid var(--border-subtle);
   padding-top: 1.25rem;
-  overflow-x: auto;
 }
 
 .tab-btn {
@@ -1855,6 +1855,23 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--accent-lime);
   color: #0B0D10;
   border-color: var(--accent-lime);
+}
+
+.tab-btn-receipt {
+  border-color: rgba(245, 158, 11, 0.4);
+  background-color: rgba(245, 158, 11, 0.08);
+  color: #FBBF24;
+}
+
+.tab-btn-receipt:hover {
+  border-color: #F59E0B;
+  color: #FEF3C7;
+}
+
+.tab-btn-receipt.active {
+  background-color: #F59E0B;
+  color: #0B0D10;
+  border-color: #F59E0B;
 }
 
 /* Sparsity Warning Card */
