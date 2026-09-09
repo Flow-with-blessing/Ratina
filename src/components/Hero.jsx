@@ -48,51 +48,60 @@ export default function Hero({ onSelectBadge }) {
       </div>
 
       <h1 className="hero-title">
-        Search Before You Source.<br />
-        <span className="hero-title-accent">Amazon Competitor Defect Intelligence. Without the $99/mo Bill.</span>
+        <span className="hero-title-top">Search Before You Source.</span>
+        <span className="hero-title-mid">Amazon Competitor Defect Intelligence.</span>
+        <span className="hero-title-accent">Without the $99/mo Bill.</span>
       </h1>
 
       <p className="hero-subtext">
         Before you manufacture or source an Amazon product, Ratina audits 5 competing brands on live customer review data to reveal every recurring failure mode, defect rate, and factory tolerance fix. Powered by Monid pay-per-call at $0.018/run. Built for humans and autonomous AI agents over MCP.
       </p>
 
-      {/* Interactive Proof Badges Row */}
+      {/* Interactive Proof Badges Grid (2x2) */}
       <div className="hero-badges-row">
         <button 
           className="hero-proof-badge clickable" 
           onClick={() => onSelectBadge && onSelectBadge('decision')}
           title="Click to view live 5-competitor audit"
         >
-          <ShieldCheck size={14} className="badge-icon-emerald" />
-          <span>Live Amazon Data via Monid</span>
-          <ChevronRight size={12} className="badge-arrow" />
+          <div className="badge-content">
+            <ShieldCheck size={16} className="badge-icon-emerald" />
+            <span>Live Amazon Data via Monid</span>
+          </div>
+          <ChevronRight size={14} className="badge-arrow" />
         </button>
         <button 
           className="hero-proof-badge clickable" 
           onClick={() => onSelectBadge && onSelectBadge('matrix')}
           title="Click to view failure patterns across competitors"
         >
-          <Layers size={14} className="badge-icon-indigo" />
-          <span>Cross-Competitor Failure Matrix</span>
-          <ChevronRight size={12} className="badge-arrow" />
+          <div className="badge-content">
+            <Layers size={16} className="badge-icon-indigo" />
+            <span>Cross-Competitor Failure Matrix</span>
+          </div>
+          <ChevronRight size={14} className="badge-arrow" />
         </button>
         <button 
           className="hero-proof-badge clickable" 
           onClick={() => onSelectBadge && onSelectBadge('receipt')}
           title="Click to inspect exact $0.01815 Monid receipt"
         >
-          <DollarSign size={14} className="badge-icon-amber" />
-          <span>Measured Cost: $0.01815 for 5 competitors</span>
-          <ChevronRight size={12} className="badge-arrow" />
+          <div className="badge-content">
+            <DollarSign size={16} className="badge-icon-amber" />
+            <span>Measured Cost: $0.01815 for 5 competitors</span>
+          </div>
+          <ChevronRight size={14} className="badge-arrow" />
         </button>
         <button 
           className="hero-proof-badge clickable" 
           onClick={() => onSelectBadge && onSelectBadge('mcp')}
           title="Click to test live Agent MCP Console"
         >
-          <Terminal size={14} className="badge-icon-blue" />
-          <span>MCP Server for Claude / Cursor</span>
-          <ChevronRight size={12} className="badge-arrow" />
+          <div className="badge-content">
+            <Terminal size={16} className="badge-icon-blue" />
+            <span>MCP Server for Claude / Cursor</span>
+          </div>
+          <ChevronRight size={14} className="badge-arrow" />
         </button>
       </div>
 
