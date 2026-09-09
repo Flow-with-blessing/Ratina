@@ -31,7 +31,7 @@ function generateCallId() {
  * @param {string} [options.context=''] - Human-readable context for logging
  * @returns {Object} Result with success, output, callMetadata, warnings
  */
-export async function runMonidEndpoint({ provider, endpoint, input, timeoutSec = 120, maxRetries = 2, context = '' }) {
+export async function runMonidEndpoint({ provider, endpoint, input, timeoutSec = 120, maxRetries = 2, context = '', apiKey }) {
   const tempDir = path.join(process.cwd(), 'temp');
   if (!fs.existsSync(tempDir)) {
     fs.mkdirSync(tempDir, { recursive: true });
@@ -56,8 +56,11 @@ export async function runMonidEndpoint({ provider, endpoint, input, timeoutSec =
       const startTime = Date.now();
       console.log(`[Monid Call ${callId}] Attempt ${attempt + 1}/${maxRetries + 1}: ${provider}${endpoint} ${context}`);
       
+      const env = apiKey ? { ...process.env, MONID_API_KEY: apiKey } : process.env;
+
       const { stdout, stderr } = await execAsync(cmd, { 
         cwd: process.cwd(),
+        env,
         timeout: (timeoutSec + 30) * 1000 // OS-level timeout buffer
       });
       const endTime = Date.now();
@@ -189,7 +192,7 @@ function cleanupFiles(...files) {
  * Search Amazon for products by keyword via Monid.
  * Returns an array of candidate products with ASINs.
  */
-export async function searchAmazonProducts(keyword, maxPages = 1) {
+export async function searchAmazonProducts(keyword, maxPages = 1, apiKey) {
   const result = await runMonidEndpoint({
     provider: 'apify',
     endpoint: '/axesso_data/amazon-search-scraper',
@@ -206,7 +209,8 @@ export async function searchAmazonProducts(keyword, maxPages = 1) {
     },
     timeoutSec: 60,
     maxRetries: 1,
-    context: `Search: "${keyword}"`
+    context: `Search: "${keyword}"`,
+    apiKey
   });
 
   if (!result.success) {
@@ -358,7 +362,7 @@ export function selectTopCompetitors(candidates, count = 5) {
  * Fetches real Amazon Product & Customer Review Data via Monid integration.
  * Returns structured data with per-call metadata for receipt tracking.
  */
-export async function fetchAmazonDataWithMonid(asin, context = '') {
+export async function fetchAmazonDataWithMonid(asin, context = '', apiKey) {
   const cleanedAsin = asin.trim().toUpperCase();
   const callRecords = [];
   let warnings = [];
@@ -378,7 +382,8 @@ export async function fetchAmazonDataWithMonid(asin, context = '') {
       ]
     },
     maxRetries: 1,
-    context: `Reviews for ${cleanedAsin} ${context}`.trim()
+    context: `Reviews for ${cleanedAsin} ${context}`.trim(),
+    apiKey
   });
 
   let rawReviews = [];
@@ -403,7 +408,8 @@ export async function fetchAmazonDataWithMonid(asin, context = '') {
     endpoint: '/delicious_zebu/amazon-product-details-scraper',
     input: { Params: [cleanedAsin] },
     maxRetries: 1,
-    context: `Product details for ${cleanedAsin} ${context}`.trim()
+    context: `Product details for ${cleanedAsin} ${context}`.trim(),
+    apiKey
   });
 
   let apifyData = {};

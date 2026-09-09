@@ -5,6 +5,7 @@ import AnalysisCard from './components/AnalysisCard';
 import EmptyState from './components/EmptyState';
 import AnalysisProgress from './components/AnalysisProgress';
 import ResultsDashboard from './components/ResultsDashboard';
+import MonidKeyModal from './components/MonidKeyModal';
 
 export default function App() {
   const [currentAsin, setCurrentAsin] = useState(null);
@@ -16,11 +17,43 @@ export default function App() {
   const [pendingAction, setPendingAction] = useState(null);
   const [dashboardTab, setDashboardTab] = useState('decision');
 
+  // Custom Monid Key & Trial State
+  const [isKeyModalOpen, setIsKeyModalOpen] = useState(false);
+  const [monidApiKey, setMonidApiKey] = useState(() => {
+    return localStorage.getItem('ratina_monid_key') || '';
+  });
+  const [trialInfo, setTrialInfo] = useState({ runsUsed: 0, maxRuns: 3, runsRemaining: 3 });
+
   // Theme State with localStorage persistence (Default: Dark)
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem('ratina_theme');
     return saved === 'light' ? 'light' : 'dark';
   });
+
+  const fetchTrialStatus = async () => {
+    try {
+      const headers = monidApiKey ? { 'x-monid-api-key': monidApiKey } : {};
+      const res = await fetch('/api/trial/status', { headers });
+      const data = await res.json();
+      setTrialInfo(data);
+    } catch (e) {
+      console.warn('Could not fetch trial status:', e);
+    }
+  };
+
+  useEffect(() => {
+    fetchTrialStatus();
+  }, [monidApiKey]);
+
+  const handleSaveApiKey = (newKey) => {
+    setMonidApiKey(newKey);
+    localStorage.setItem('ratina_monid_key', newKey);
+  };
+
+  const handleRemoveApiKey = () => {
+    setMonidApiKey('');
+    localStorage.removeItem('ratina_monid_key');
+  };
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -100,9 +133,14 @@ export default function App() {
       setErrorDetails(null);
 
       try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (monidApiKey) {
+          headers['x-monid-api-key'] = monidApiKey;
+        }
+
         const response = await fetch('/api/investigate', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers,
           body: JSON.stringify({ 
             category, 
             searchQuery: searchQuery || category 
@@ -111,9 +149,20 @@ export default function App() {
 
         const payload = await response.json();
 
+        // If trial limit reached, open the modal to help them connect their key
+        if (response.status === 429 && payload.trialExhausted) {
+          setIsKeyModalOpen(true);
+          setErrorMessage(payload.message);
+          return;
+        }
+
         if (!response.ok || !payload.success) {
           setErrorDetails(payload.executionMetadata || null);
           throw new Error(payload.message || payload.error || 'Investigation failed');
+        }
+
+        if (payload.trialInfo) {
+          setTrialInfo(payload.trialInfo);
         }
 
         setResultsData(payload.data);
@@ -160,9 +209,14 @@ export default function App() {
     setErrorMessage(null);
 
     try {
+      const headers = { 'Content-Type': 'application/json' };
+      if (monidApiKey) {
+        headers['x-monid-api-key'] = monidApiKey;
+      }
+
       const response = await fetch('/api/investigate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ category: 'Portable Blenders' })
       });
       const payload = await response.json();
@@ -197,6 +251,9 @@ export default function App() {
         hasResults={Boolean(resultsData || isLoading)} 
         theme={theme}
         onToggleTheme={handleToggleTheme}
+        onOpenKeyModal={() => setIsKeyModalOpen(true)}
+        apiKey={monidApiKey}
+        trialInfo={trialInfo}
       />
 
       {/* Cost Confirmation Dialog */}
@@ -305,6 +362,16 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Monid Custom API Key & Sponsored Trial Modal */}
+      <MonidKeyModal 
+        isOpen={isKeyModalOpen}
+        onClose={() => setIsKeyModalOpen(false)}
+        apiKey={monidApiKey}
+        onSaveKey={handleSaveApiKey}
+        onRemoveKey={handleRemoveApiKey}
+        trialInfo={trialInfo}
+      />
     </div>
   );
 }

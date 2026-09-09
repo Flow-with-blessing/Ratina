@@ -283,9 +283,10 @@ export function analyzeReviewsForFailures(reviews, failureDictionary) {
  * @param {string} options.category - Category name
  * @param {string[]} [options.asins] - Pre-selected ASINs (skip search if provided)
  * @param {string} [options.searchQuery] - Search query for discovery (if no ASINs provided)
+ * @param {string} [options.apiKey] - Optional custom Monid API key
  * @returns {Object} Complete investigation result
  */
-export async function runInvestigation({ category, asins, searchQuery }) {
+export async function runInvestigation({ category, asins, searchQuery, apiKey }) {
   const runId = `run_${Date.now()}`;
   const executedAt = new Date().toISOString();
   const allCallRecords = [];
@@ -293,6 +294,7 @@ export async function runInvestigation({ category, asins, searchQuery }) {
 
   console.log(`\n[Investigation ${runId}] Starting: "${category}"`);
   console.log(`[Investigation ${runId}] Mode: ${asins ? 'Pre-selected ASINs' : 'Dynamic Discovery'}`);
+  console.log(`[Investigation ${runId}] Auth: ${apiKey ? 'Custom Monid Key Provided' : 'Default/Sponsored Key'}`);
 
   // ─── PHASE 1: DISCOVERY (if no ASINs provided) ──────────────────────────────
 
@@ -304,7 +306,7 @@ export async function runInvestigation({ category, asins, searchQuery }) {
     const query = searchQuery || category;
     console.log(`[Investigation ${runId}] Phase 1: Searching Amazon for "${query}"...`);
 
-    discoveryResult = await searchAmazonProducts(query, 1);
+    discoveryResult = await searchAmazonProducts(query, 1, apiKey);
     
     if (discoveryResult.callMetadata) {
       allCallRecords.push(discoveryResult.callMetadata);
@@ -354,7 +356,7 @@ export async function runInvestigation({ category, asins, searchQuery }) {
   for (const asin of targetAsins) {
     console.log(`[Investigation ${runId}]   Fetching data for ${asin}...`);
     
-    const result = await fetchAmazonDataWithMonid(asin, `(${category})`);
+    const result = await fetchAmazonDataWithMonid(asin, `(${category})`, apiKey);
     
     // Track all call records
     if (result.monidReceipt?.callRecords) {

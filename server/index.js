@@ -23,6 +23,18 @@ let lastInvestigationResult = null;
 const SPRINT_BUDGET_MAX = 1.00;
 let sprintTotalSpend = 0;
 
+// Sponsored trial tracking (free audits for shoppers without a Monid account)
+const MAX_SPONSORED_RUNS_PER_IP = 3;
+const sponsoredTrialTracker = new Map(); // IP -> count of fresh runs
+
+function getClientIp(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  if (forwarded) {
+    return forwarded.split(',')[0].trim();
+  }
+  return req.socket?.remoteAddress || '127.0.0.1';
+}
+
 // Logging middleware
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
@@ -46,6 +58,26 @@ app.get('/api/health', (req, res) => {
 });
 
 /**
+ * GET /api/trial/status
+ * Returns the current visitor's trial status or custom key status
+ */
+app.get('/api/trial/status', (req, res) => {
+  const customApiKey = req.headers['x-monid-api-key'];
+  const clientIp = getClientIp(req);
+  const runsUsed = sponsoredTrialTracker.get(clientIp) || 0;
+  
+  res.json({
+    hasCustomKey: Boolean(customApiKey),
+    isCustomKey: Boolean(customApiKey),
+    clientIp,
+    runsUsed,
+    runsRemaining: Math.max(0, MAX_SPONSORED_RUNS_PER_IP - runsUsed),
+    maxRuns: MAX_SPONSORED_RUNS_PER_IP,
+    trialExhausted: !customApiKey && runsUsed >= MAX_SPONSORED_RUNS_PER_IP
+  });
+});
+
+/**
  * GET /api/budget
  * Returns current sprint budget status
  */
@@ -62,14 +94,19 @@ app.get('/api/budget', (req, res) => {
  * POST /api/investigate
  * 
  * General-purpose live investigation endpoint.
- * Supports both dynamic discovery (search → select → enrich)
- * and pre-selected ASIN lists.
+ * Supports:
+ * 1. Cached categories ($0.00, instant sub-second)
+ * 2. Sponsored free trial runs (first 3 fresh audits on the house)
+ * 3. Custom Monid API key via `x-monid-api-key` header (unlimited)
  * 
- * Body: { category: string, asins?: string[], searchQuery?: string }
+ * Body: { category: string, asins?: string[], searchQuery?: string, forceFresh?: boolean }
  */
 app.post('/api/investigate', async (req, res) => {
   try {
     const { category, asins, searchQuery, forceFresh } = req.body;
+    const customApiKey = req.headers['x-monid-api-key'] || req.body?.customApiKey;
+    const clientIp = getClientIp(req);
+    const runsUsed = sponsoredTrialTracker.get(clientIp) || 0;
 
     if (!category || typeof category !== 'string' || category.trim().length === 0) {
       return res.status(400).json({
@@ -90,6 +127,15 @@ app.post('/api/investigate', async (req, res) => {
           success: true,
           data: cached,
           source: 'CACHE',
+          cost: '$0.00',
+          authMode: customApiKey ? 'CUSTOM_MONID_KEY' : 'CACHED_BENCHMARK',
+          trialInfo: {
+            isSponsored: false,
+            isCached: true,
+            runsUsed,
+            runsRemaining: Math.max(0, MAX_SPONSORED_RUNS_PER_IP - runsUsed),
+            maxRuns: MAX_SPONSORED_RUNS_PER_IP
+          },
           sprintBudget: {
             thisRunCost: 0,
             sprintTotalSpend,
@@ -99,22 +145,34 @@ app.post('/api/investigate', async (req, res) => {
       }
     }
 
-    // Budget guard
-    if (sprintTotalSpend >= SPRINT_BUDGET_MAX) {
+    // If running fresh without a custom key, check the sponsored trial limit
+    if (!customApiKey && runsUsed >= MAX_SPONSORED_RUNS_PER_IP) {
+      return res.status(429).json({
+        error: 'TRIAL_LIMIT_REACHED',
+        message: `You've used all ${MAX_SPONSORED_RUNS_PER_IP} free trial market audits sponsored by Ratina! Enter your own Monid API key from monid.ai to continue running live audits, or explore cached categories for free ($0.00).`,
+        trialExhausted: true,
+        runsUsed,
+        maxRuns: MAX_SPONSORED_RUNS_PER_IP
+      });
+    }
+
+    // Host budget guard (only applies if no custom API key provided)
+    if (!customApiKey && sprintTotalSpend >= SPRINT_BUDGET_MAX) {
       return res.status(402).json({
         error: 'BUDGET_EXHAUSTED',
-        message: `Sprint budget limit of $${SPRINT_BUDGET_MAX.toFixed(2)} reached. Total spent: $${sprintTotalSpend.toFixed(5)}.`,
+        message: `Sponsored sprint budget limit of $${SPRINT_BUDGET_MAX.toFixed(2)} reached. Connect your Monid API key to continue running audits.`,
         sprintTotalSpend,
         sprintBudgetMax: SPRINT_BUDGET_MAX
       });
     }
 
-    console.log(`[Ratina Investigation] Category: "${category}" | Mode: ${asins ? 'Pre-selected' : 'Dynamic Discovery'}`);
+    console.log(`[Ratina Investigation] Category: "${category}" | Mode: ${asins ? 'Pre-selected' : 'Dynamic Discovery'} | Auth: ${customApiKey ? 'Custom Key' : 'Sponsored Trial'}`);
 
     const result = await runInvestigation({
       category: category.trim(),
       asins: asins && asins.length > 0 ? asins : undefined,
-      searchQuery: searchQuery || undefined
+      searchQuery: searchQuery || undefined,
+      apiKey: customApiKey || undefined
     });
 
     if (!result.success) {
@@ -125,18 +183,31 @@ app.post('/api/investigate', async (req, res) => {
       });
     }
 
-    // Track sprint spend
+    // Track spend and trial usage
     const cost = result.data?.executionMetadata?.totalActualCost || 0;
-    sprintTotalSpend += cost;
+    
+    if (!customApiKey) {
+      sprintTotalSpend += cost;
+      sponsoredTrialTracker.set(clientIp, runsUsed + 1);
+    }
 
     // Store for exports and cache
     lastInvestigationResult = result.data;
     setCachedResult(cacheKey, result.data);
 
+    const newRunsUsed = customApiKey ? runsUsed : (runsUsed + 1);
+
     return res.json({
       success: true,
       data: result.data,
       source: 'LIVE_MONID_EXECUTION',
+      authMode: customApiKey ? 'CUSTOM_MONID_KEY' : 'SPONSORED_TRIAL',
+      trialInfo: {
+        isSponsored: !customApiKey,
+        runsUsed: newRunsUsed,
+        runsRemaining: Math.max(0, MAX_SPONSORED_RUNS_PER_IP - newRunsUsed),
+        maxRuns: MAX_SPONSORED_RUNS_PER_IP
+      },
       sprintBudget: {
         thisRunCost: cost,
         sprintTotalSpend,

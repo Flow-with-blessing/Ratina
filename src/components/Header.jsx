@@ -1,7 +1,21 @@
 import React from 'react';
-import { Radar, Zap, ExternalLink, Sun, Moon } from 'lucide-react';
+import { Radar, Zap, ExternalLink, Sun, Moon, Key, Gift } from 'lucide-react';
 
-export default function Header({ onReset, onShowReceipt, hasResults, theme, onToggleTheme }) {
+export default function Header({ 
+  onReset, 
+  onShowReceipt, 
+  hasResults, 
+  theme, 
+  onToggleTheme,
+  onOpenKeyModal,
+  apiKey,
+  trialInfo
+}) {
+  const isCustomKey = Boolean(apiKey);
+  const runsUsed = trialInfo?.runsUsed ?? 0;
+  const maxRuns = trialInfo?.maxRuns ?? 3;
+  const runsRemaining = Math.max(0, maxRuns - runsUsed);
+
   return (
     <header className="header-bar">
       <div className="header-inner">
@@ -58,12 +72,18 @@ export default function Header({ onReset, onShowReceipt, hasResults, theme, onTo
             )}
           </button>
 
-          {/* Monid Power Indicator & Live Credit */}
-          <div className="monid-badge" title="Live connection to Monid API Gateway ($20.59 USD available balance)">
-            <span className="monid-dot"></span>
-            <span>Monid API</span>
-            <span className="balance-pill">$20.59 USD</span>
-          </div>
+          {/* Interactive Monid Connection & Key Button */}
+          <button 
+            onClick={onOpenKeyModal}
+            className={`monid-badge-btn ${isCustomKey ? 'custom' : 'trial'}`}
+            title={isCustomKey ? 'Custom Monid API key connected. Click to manage.' : 'Sponsored free trial active. Click to connect your own Monid account.'}
+          >
+            <span className={`monid-dot ${isCustomKey ? 'live' : 'trial'}`}></span>
+            <span>{isCustomKey ? 'Monid Account' : 'Free Trial'}</span>
+            <span className={`balance-pill ${isCustomKey ? 'custom' : 'trial'}`}>
+              {isCustomKey ? 'Connected' : `${runsRemaining} Left`}
+            </span>
+          </button>
 
           {hasResults && (
             <button 
