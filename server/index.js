@@ -1037,6 +1037,15 @@ app.post('/api/analyze/start', rateLimit, (req, res) => {
   const validated = validateAnalyzeRequest({ asin, mode });
   if (validated.error) return res.status(validated.error.status).json(validated.error.body);
 
+  // Single-ASIN live runs draw against the sponsored free-trial allowance,
+  // same as the non-streaming /api/investigate path. (Previously this
+  // endpoint never checked admission or recorded usage, so the trial
+  // counter never moved and the limit was never enforced here.)
+  if (!validated.benchmark) {
+    const denied = checkAdmission({ customApiKey: apiKey, clientKey });
+    if (denied) return res.status(denied.status).json(denied.body);
+  }
+
   const run = createRun({ clientKey, category: validated.category, mode: validated.benchmark ? 'PRESET_ASIN_ANALYSIS' : 'SINGLE_ASIN' });
   res.json({ runId: run.runId, streamUrl: `/api/runs/stream?runId=${run.runId}` });
 
@@ -1048,10 +1057,19 @@ app.post('/api/analyze/start', rateLimit, (req, res) => {
         failRun(run.runId, { error: result.error, errorType: result.errorType, warnings: result.warnings });
         return;
       }
+      const newRunsUsed = validated.benchmark
+        ? (sponsoredTrialTracker.get(clientKey) || 0)
+        : recordSpend({ customApiKey: apiKey, clientKey, cost: result.cost });
       completeRun(run.runId, {
         success: true,
         data: result.data,
         source: 'LIVE_MONID_EXECUTION',
+        trialInfo: {
+          isSponsored: !apiKey,
+          runsUsed: newRunsUsed,
+          runsRemaining: Math.max(0, MAX_SPONSORED_RUNS_PER_IP - newRunsUsed),
+          maxRuns: MAX_SPONSORED_RUNS_PER_IP
+        },
         sprintBudget: {
           thisRunCost: result.cost,
           sprintTotalSpend,

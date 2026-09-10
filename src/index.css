@@ -2403,6 +2403,49 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-secondary);
 }
 
+/* Monid Receipt Card */
+.receipt-card {
+  padding: 1.5rem;
+}
+
+.receipt-header-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.receipt-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--accent-lime);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.receipt-total-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.2rem;
+}
+
+.total-label {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.total-value {
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-family: var(--font-mono);
+}
+
 /* Receipt Metrics Grid */
 .receipt-metrics-grid {
   display: grid;
@@ -2411,32 +2454,66 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 1.5rem;
 }
 
-.receipt-metric-card {
+.receipt-metric-box {
   padding: 1.25rem;
   background-color: var(--surface-elevated);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
+  gap: 0.3rem;
 }
 
-.receipt-metric-card .metric-label {
+.receipt-metric-box .metric-lbl {
   font-size: 0.75rem;
   color: var(--text-tertiary);
   font-weight: 600;
   text-transform: uppercase;
 }
 
-.receipt-metric-card .metric-value {
+.receipt-metric-box .metric-val {
   font-size: 1.5rem;
   font-weight: 900;
   font-family: var(--font-mono);
-  margin: 0.3rem 0;
 }
 
-.receipt-metric-card .metric-sub {
+.receipt-metric-box .metric-sub {
   font-size: 0.725rem;
   color: var(--text-secondary);
+}
+
+.receipt-kill-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 1.1rem 1.25rem;
+  background-color: var(--color-warning-bg);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: var(--radius-lg);
+}
+
+.kill-callout-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-md);
+  background-color: rgba(245, 158, 11, 0.15);
+}
+
+.kill-callout-content h4 {
+  margin: 0 0 0.35rem 0;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.kill-callout-content p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
 }
 
 .receipt-summary-pill {
