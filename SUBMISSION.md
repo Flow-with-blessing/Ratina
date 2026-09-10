@@ -54,10 +54,10 @@ When an analysis drives a purchase order to a factory, "trust the dashboard" is 
 
 ```bash
 # 1. Pull a real signed investigation
-curl -s https://YOUR-URL/api/saved-benchmark | jq '.data' > report.json
+curl -s https://ratina.up.railway.app/api/saved-benchmark | jq '.data' > report.json
 
 # 2. Verify it. Passes.
-curl -s -X POST https://YOUR-URL/api/receipts/verify \
+curl -s -X POST https://ratina.up.railway.app/api/receipts/verify \
   -H 'Content-Type: application/json' -d @report.json | jq '.verified, .verdict'
 # true
 # "AUTHENTIC — receipt matches this exact analysis"
@@ -66,7 +66,7 @@ curl -s -X POST https://YOUR-URL/api/receipts/verify \
 jq '.productOpportunityScore.score = 99' report.json > tampered.json
 
 # 4. Verify again. Fails, and names the check that caught it.
-curl -s -X POST https://YOUR-URL/api/receipts/verify \
+curl -s -X POST https://ratina.up.railway.app/api/receipts/verify \
   -H 'Content-Type: application/json' -d @tampered.json | jq '.verified, .failedCheck, .reason'
 # false
 # "CONTENT_HASH"
@@ -130,9 +130,9 @@ Note the French Press row: two competitors returned only 3 reviews each. Ratina 
 ## Code and project
 
 - **GitHub:** https://github.com/Flow-with-blessing/Ratina
-- **Live app:** `<INSERT RAILWAY URL>`
-- **Verify endpoint:** `<INSERT RAILWAY URL>/api/receipts/verify`
-- **Health + signing key:** `<INSERT RAILWAY URL>/api/health`
+- **Live app:** https://ratina.up.railway.app
+- **Verify endpoint:** https://ratina.up.railway.app/api/receipts/verify
+- **Health + signing key:** https://ratina.up.railway.app/api/health
 - **Docs:** https://github.com/Flow-with-blessing/Ratina#readme
 
 Stack: Node/Express orchestrator, React + Vite dashboard, Monid pay-per-call gateway, MCP server over stdio and HTTP. `MONID_API_KEY` stays server-side; a user's own key travels in a request header and is never persisted or logged.

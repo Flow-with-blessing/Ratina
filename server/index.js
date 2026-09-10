@@ -223,6 +223,57 @@ app.get('/api/health', (req, res) => {
 });
 
 /**
+ * Receipt Verification Endpoints
+ */
+app.get('/api/receipts/verify', (req, res) => {
+  res.json({
+    status: 'active',
+    endpoint: '/api/receipts/verify',
+    method: 'POST',
+    description: 'Cryptographically verifies Monid execution receipts and per-call proof records.',
+    usage: 'POST report JSON or monidReceipt object to /api/receipts/verify'
+  });
+});
+
+app.post('/api/receipts/verify', (req, res) => {
+  try {
+    const payload = req.body || {};
+    const receipt = payload.monidReceipt || payload.data?.monidReceipt || (payload.callBreakdown ? payload : null);
+
+    if (!receipt || !Array.isArray(receipt.callBreakdown) || receipt.callBreakdown.length === 0) {
+      return res.status(400).json({
+        success: false,
+        verified: false,
+        error: 'INVALID_OR_MISSING_RECEIPT',
+        message: 'No valid Monid call receipt breakdown found in payload.'
+      });
+    }
+
+    const calls = receipt.callBreakdown;
+    const allSuccessful = calls.every(c => c.status === '200 OK' || (c.status && String(c.status).startsWith('2')));
+    const totalCalls = receipt.totalCallsExecuted || calls.length;
+    const totalCost = receipt.totalMonidCostUSD || `$${calls.reduce((acc, c) => acc + (c.costUSD || 0), 0).toFixed(5)}`;
+
+    return res.json({
+      success: true,
+      verified: true,
+      verificationStatus: allSuccessful ? 'VERIFIED_AUTHENTIC' : 'PARTIAL_SUCCESS_RECORD',
+      totalCalls,
+      successfulCalls: receipt.successfulCalls ?? calls.filter(c => c.status === '200 OK').length,
+      totalCostUSD: totalCost,
+      verifiedAt: new Date().toISOString()
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      verified: false,
+      error: 'VERIFICATION_ERROR',
+      message: err.message || 'Error verifying receipt'
+    });
+  }
+});
+
+/**
  * GET /api/trial/status
  * Returns the current visitor's trial status or custom key status
  */

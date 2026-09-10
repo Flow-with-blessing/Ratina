@@ -187,7 +187,7 @@ function seedFromLiveProof() {
 
     const proofFiles = [
       'live_proof_portable_blenders.json',
-      'live_proof_french_press.json'
+      'live_proof_french_press_coffee_makers_34oz_1_liter.json'
     ];
 
     for (const file of proofFiles) {

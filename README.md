@@ -3,6 +3,8 @@
 > **The Amazon Review Intelligence API, without the $99/mo subscription.**  
 > Pay $0.018 per investigation through [Monid](https://monid.ai).
 
+**Live app:** https://ratina.up.railway.app · **Health:** [`/api/health`](https://ratina.up.railway.app/api/health) · **Verify a report:** [`/api/receipts/verify`](https://ratina.up.railway.app/api/receipts/verify)
+
 ---
 
 ## ⚡ What Died
@@ -60,8 +62,8 @@ evidence confidence rather than treating a thin sample as "no defects found".
 
 ### 1. Clone & Install
 ```bash
-git clone https://github.com/YOUR_USERNAME/Ratina.Ai.git
-cd Ratina.Ai
+git clone https://github.com/Flow-with-blessing/Ratina.git
+cd Ratina
 npm install
 ```
 
@@ -259,6 +261,32 @@ Every Monid API call is logged with:
 - Cached repeat query: **$0.00** (instant, ~70ms)
 
 Sprint budget guard: hardcoded $1.00 maximum to prevent runaway spend.
+
+---
+
+## 🛡️ Try to fake one
+
+Runs against the live deployment as written. To run it against a local server instead, replace `https://ratina.up.railway.app` with `localhost:3001`.
+
+```bash
+# 1. Verify a genuine benchmark report
+curl -X POST https://ratina.up.railway.app/api/receipts/verify \
+  -H "Content-Type: application/json" \
+  -d @temp/live_proof_french_press_coffee_makers_34oz_1_liter.json
+
+# 2. Try to verify a report with tampered cost ($0.00 instead of real cost)
+curl -X POST https://ratina.up.railway.app/api/receipts/verify \
+  -H "Content-Type: application/json" \
+  -d '{"monidReceipt":{"totalMonidCostNumber":0,"callBreakdown":[]}}'
+
+# 3. Try to verify an empty payload
+curl -X POST https://ratina.up.railway.app/api/receipts/verify \
+  -H "Content-Type: application/json" \
+  -d '{}'
+
+# 4. Check live server health and cached datasets
+curl -s https://ratina.up.railway.app/api/health
+```
 
 ---
 

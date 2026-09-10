@@ -97,18 +97,30 @@ const fallbackReceipt = {
 export function getLiveProofPayload() {
   if (cachedPayload) return cachedPayload;
 
-  try {
-    const filePath = path.join(process.cwd(), 'temp', 'strict_intelligence_layers.json');
-    if (fs.existsSync(filePath)) {
-      const raw = fs.readFileSync(filePath, 'utf8');
-      cachedPayload = JSON.parse(raw);
-      if (!cachedPayload.monidReceipt) {
-        cachedPayload.monidReceipt = fallbackReceipt;
+  const candidateFiles = [
+    path.join(process.cwd(), 'temp', 'live_proof_french_press_coffee_makers_34oz_1_liter.json'),
+    path.join(process.cwd(), 'temp', 'strict_intelligence_layers.json')
+  ];
+
+  for (const filePath of candidateFiles) {
+    try {
+      if (fs.existsSync(filePath)) {
+        const raw = fs.readFileSync(filePath, 'utf8');
+        const parsed = JSON.parse(raw);
+        if (parsed && Array.isArray(parsed.strictCompetitorSummary) && parsed.strictCompetitorSummary.length > 0) {
+          if (!parsed.monidReceipt) {
+            parsed.monidReceipt = fallbackReceipt;
+          }
+          if (!parsed.category) {
+            parsed.category = "French Press Coffee Makers (34oz / 1-Liter)";
+          }
+          cachedPayload = parsed;
+          return cachedPayload;
+        }
       }
-      return cachedPayload;
+    } catch (e) {
+      console.error(`Error reading ${filePath}:`, e);
     }
-  } catch (e) {
-    console.error('Error reading strict_intelligence_layers.json:', e);
   }
 
   // Exact fallback structure matching live-proof gate run
