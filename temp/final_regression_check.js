@@ -26,7 +26,8 @@ async function runRegression() {
 
   // 1. French Press benchmark
   try {
-    const res = await fetch('http://localhost:3001/api/saved-benchmark');
+    const PORT = process.env.PORT || 8080;
+    const res = await fetch(`http://localhost:${PORT}/api/saved-benchmark`);
     const data = await res.json();
     const ok = res.status === 200 && 
                data.success === true && 
@@ -140,9 +141,10 @@ async function runRegression() {
     record(9, 'Final Decision & Confidence', false, 'Missing final decision');
   }
 
-  // 10. JSON export endpoint
+  // 10. JSON Export endpoint
   try {
-    const res = await fetch('http://localhost:3001/api/export/json');
+    const PORT = process.env.PORT || 8080;
+    const res = await fetch(`http://localhost:${PORT}/api/export/json`);
     const json = await res.json();
     const ok = res.status === 200 &&
                res.headers.get('content-type')?.includes('application/json') &&
@@ -156,7 +158,8 @@ async function runRegression() {
 
   // 11. Sourcing Brief export endpoint
   try {
-    const res = await fetch('http://localhost:3001/api/export/brief');
+    const PORT = process.env.PORT || 8080;
+    const res = await fetch(`http://localhost:${PORT}/api/export/brief`);
     const txt = await res.text();
     const ok = res.status === 200 &&
                res.headers.get('content-type')?.includes('text/plain') &&
@@ -171,8 +174,9 @@ async function runRegression() {
 
   // 12. Empty / invalid / partial-failure handling
   try {
+    const PORT = process.env.PORT || 8080;
     // 12a: Empty category
-    const resEmpty = await fetch('http://localhost:3001/api/investigate', {
+    const resEmpty = await fetch(`http://localhost:${PORT}/api/investigate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ category: '' })
@@ -180,7 +184,7 @@ async function runRegression() {
     const dEmpty = await resEmpty.json();
 
     // 12b: Malformed ASIN
-    const resMalformed = await fetch('http://localhost:3001/api/analyze', {
+    const resMalformed = await fetch(`http://localhost:${PORT}/api/analyze`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ asin: 'BAD_ASIN' })
@@ -188,7 +192,7 @@ async function runRegression() {
     const dMalformed = await resMalformed.json();
 
     // 12c: Comma-separated ASINs
-    const resComma = await fetch('http://localhost:3001/api/analyze', {
+    const resComma = await fetch(`http://localhost:${PORT}/api/analyze`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ asin: 'B00008XEWG, B000KEM4TQ' })
@@ -196,7 +200,7 @@ async function runRegression() {
     const dComma = await resComma.json();
 
     // 12d: Budget guard check
-    const resBudget = await fetch('http://localhost:3001/api/budget');
+    const resBudget = await fetch(`http://localhost:${PORT}/api/budget`);
     const dBudget = await resBudget.json();
 
     const ok = resEmpty.status === 400 && dEmpty.error === 'MISSING_CATEGORY' &&
