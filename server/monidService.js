@@ -16,17 +16,16 @@ export async function ensureMonidKeyConfigured(apiKey) {
   if (!keyToUse || keyToUse === lastConfiguredKey) return;
 
   try {
-    const binDir = path.join(process.cwd(), 'node_modules', '.bin');
-    const pathSeparator = process.platform === 'win32' ? ';' : ':';
-    const augmentedPath = `${binDir}${pathSeparator}${process.env.PATH || ''}`;
+    const monidCliPath = path.resolve(process.cwd(), 'node_modules', '@monid-ai', 'cli', 'dist', 'index.js');
+    const monidCmd = fs.existsSync(monidCliPath) ? `node "${monidCliPath}"` : 'monid';
 
     // Add and activate the key in monid credential store
-    await execAsync(`monid keys add --key "${keyToUse}" --label "ratina_auto" -j`, {
-      env: { ...process.env, PATH: augmentedPath }
-    }).catch(() => {});
-    await execAsync(`monid keys activate --label "ratina_auto" -j`, {
-      env: { ...process.env, PATH: augmentedPath }
-    }).catch(() => {});
+    await execAsync(`${monidCmd} keys add --key "${keyToUse}" --label "ratina_auto" -j`).catch((err) => {
+      console.warn('[Monid Config] keys add note:', err.stderr || err.message);
+    });
+    await execAsync(`${monidCmd} keys activate --label "ratina_auto" -j`).catch((err) => {
+      console.warn('[Monid Config] keys activate note:', err.stderr || err.message);
+    });
 
     lastConfiguredKey = keyToUse;
     console.log('[Monid Config] Successfully activated API key in monid CLI credential store');
@@ -98,14 +97,16 @@ export async function runMonidEndpoint({ provider, endpoint, input, timeoutSec =
     try {
       fs.writeFileSync(inputFile, JSON.stringify(input, null, 2), 'utf8');
 
-      const cmd = `monid run -p ${provider} -e ${endpoint} -f "${inputFile}" -w ${timeoutSec} -o "${outputFile}" -j`;
+      // Ensure monid CLI is configured with the key
+      await ensureMonidKeyConfigured(apiKey);
+
+      const monidCliPath = path.resolve(process.cwd(), 'node_modules', '@monid-ai', 'cli', 'dist', 'index.js');
+      const monidCmd = fs.existsSync(monidCliPath) ? `node "${monidCliPath}"` : 'monid';
+      const cmd = `${monidCmd} run -p ${provider} -e ${endpoint} -f "${inputFile}" -w ${timeoutSec} -o "${outputFile}" -j`;
       
       const startTime = Date.now();
       console.log(`[Monid Call ${callId}] Attempt ${attempt + 1}/${maxRetries + 1}: ${provider}${endpoint} ${context}`);
       
-      // Ensure monid CLI is configured with the key
-      await ensureMonidKeyConfigured(apiKey);
-
       const binDir = path.join(process.cwd(), 'node_modules', '.bin');
       const pathSeparator = process.platform === 'win32' ? ';' : ':';
       const augmentedPath = `${binDir}${pathSeparator}${process.env.PATH || ''}`;
@@ -180,7 +181,7 @@ export async function runMonidEndpoint({ provider, endpoint, input, timeoutSec =
       cleanupFiles(inputFile, outputFile);
       lastError = error;
       
-      const errorMsg = error.message || String(error);
+      const errorMsg = (error.stderr ? String(error.stderr).trim() : '') || (error.stdout ? String(error.stdout).trim() : '') || error.message || String(error);
       
       // Check for retryable errors (429, 5xx, timeout)
       const is429 = errorMsg.includes('429') || errorMsg.includes('rate limit') || errorMsg.includes('Too Many');
