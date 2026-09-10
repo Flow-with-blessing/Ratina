@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import crypto from 'crypto';
 import { fileURLToPath } from 'url';
-import { fetchAmazonDataWithMonid } from './monidService.js';
+import { fetchAmazonDataWithMonid, ensureMonidKeyConfigured } from './monidService.js';
 import { analyzeProductIntelligence } from './analyzer.js';
 import { runInvestigation } from './investigationEngine.js';
 import { generateSourcingBriefText, generateSourcingJSON } from './exportService.js';
@@ -1372,4 +1372,5 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`   Cache:       ${getCacheStats().cachedCategories} categories pre-loaded`);
   console.log(`🔐 Receipts:  ${RECEIPT_PROTOCOL} | key ${getKeyId()} | durable=${isDurableKeyConfigured()}`);
   console.log(`📊 Sprint budget: $${SPRINT_BUDGET_MAX.toFixed(2)} max additional spend`);
+  ensureMonidKeyConfigured().catch(console.error);
 });

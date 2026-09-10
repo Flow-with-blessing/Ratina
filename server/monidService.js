@@ -6,6 +6,35 @@ import { secureId } from './receiptService.js';
 
 const execAsync = promisify(exec);
 
+let lastConfiguredKey = null;
+
+/**
+ * Ensure the API key is registered and active in the monid CLI credential store.
+ */
+export async function ensureMonidKeyConfigured(apiKey) {
+  const keyToUse = apiKey || process.env.MONID_API_KEY;
+  if (!keyToUse || keyToUse === lastConfiguredKey) return;
+
+  try {
+    const binDir = path.join(process.cwd(), 'node_modules', '.bin');
+    const pathSeparator = process.platform === 'win32' ? ';' : ':';
+    const augmentedPath = `${binDir}${pathSeparator}${process.env.PATH || ''}`;
+
+    // Add and activate the key in monid credential store
+    await execAsync(`monid keys add --key "${keyToUse}" --label "ratina_auto" -j`, {
+      env: { ...process.env, PATH: augmentedPath }
+    }).catch(() => {});
+    await execAsync(`monid keys activate --label "ratina_auto" -j`, {
+      env: { ...process.env, PATH: augmentedPath }
+    }).catch(() => {});
+
+    lastConfiguredKey = keyToUse;
+    console.log('[Monid Config] Successfully activated API key in monid CLI credential store');
+  } catch (err) {
+    console.warn('[Monid Config] Warning configuring key in monid CLI:', err.message);
+  }
+}
+
 // Per-call cost rates (USD) from Monid endpoint pricing
 const COST_RATES = {
   'apify/axesso_data/amazon-search-scraper': 0.00015,   // per result/query
@@ -74,6 +103,9 @@ export async function runMonidEndpoint({ provider, endpoint, input, timeoutSec =
       const startTime = Date.now();
       console.log(`[Monid Call ${callId}] Attempt ${attempt + 1}/${maxRetries + 1}: ${provider}${endpoint} ${context}`);
       
+      // Ensure monid CLI is configured with the key
+      await ensureMonidKeyConfigured(apiKey);
+
       const binDir = path.join(process.cwd(), 'node_modules', '.bin');
       const pathSeparator = process.platform === 'win32' ? ';' : ':';
       const augmentedPath = `${binDir}${pathSeparator}${process.env.PATH || ''}`;
