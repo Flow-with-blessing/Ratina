@@ -156,7 +156,7 @@ export function analyzeProductIntelligence(rawResult) {
 
     // Check matches in verbatim individual review records returned by Monid
     rawReviews.forEach(rev => {
-      const fullRevText = `${rev.reviewTitle || ''} ${rev.reviewText || ''}`.toLowerCase();
+      const fullRevText = `${rev.title || rev.reviewTitle || ''} ${rev.text || rev.reviewText || ''}`.toLowerCase();
       const matchedKws = dict.keywords.filter(kw => fullRevText.includes(kw));
 
       if (matchedKws.length > 0) {
@@ -164,8 +164,9 @@ export function analyzeProductIntelligence(rawResult) {
         matchingKeywords.push(...matchedKws);
 
         if (customerEvidence.length < 3) {
-          const excerptText = rev.reviewText || rev.reviewTitle || 'Customer reported functional defect during use.';
-          const formattedDate = rev.reviewDate ? String(rev.reviewDate).replace(/^Reviewed in the United States on /, '') : 'Verified Purchase';
+          const excerptText = rev.text || rev.reviewText || rev.title || rev.reviewTitle || 'Customer reported functional defect during use.';
+          const rawDate = rev.date || rev.reviewDate;
+          const formattedDate = rawDate ? String(rawDate).replace(/^Reviewed in the United States on /, '') : 'Verified Purchase';
           
           const evidenceRating = parseFloat(rev.reviewRating ?? rev.rating ?? rev.stars);
 
@@ -174,8 +175,8 @@ export function analyzeProductIntelligence(rawResult) {
             // Null, not an assumed 1★, when the review's own rating is absent.
             rating: Number.isFinite(evidenceRating) ? evidenceRating : null,
             date: formattedDate,
-            verified: rev.verifiedPurchase !== false,
-            helpfulCount: rev.helpfulCount || 0
+            verified: (rev.verified ?? rev.verifiedPurchase) !== false,
+            helpfulCount: rev.numberOfHelpful || rev.helpfulCount || 0
           });
         }
       }
